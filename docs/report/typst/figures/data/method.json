@@ -1,0 +1,1 @@
+{"n_envs":8,"n_steps":256,"per_update":2048,"days":21,"batch_size":64,"minibatches":32,"gamma":0.99,"n_epochs":10,"rounds":245,"total_steps":500000}

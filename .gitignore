@@ -3,3 +3,9 @@ __pycache__/
 .pytest_cache/
 runs/*/*/*/model.zip
 .DS_Store
+
+# Typst toolchain and docs (downloaded by scripts/setup_typst.sh); fonts stay tracked
+tools/typst/
+tools/docs/
+# Typst figure output (rebuilt by scripts/build_typst_figures.sh)
+docs/report/typst/build/

@@ -11,20 +11,17 @@ import os
 from pathlib import Path
 
 os.environ.setdefault("MPLCONFIGDIR", "/tmp/mpl")
-import matplotlib
-
-matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
 
+from hvac import plotting as ps
 from hvac.env import RoomConfig, RoomThermalEnv
 from hvac.train import DEFAULT_PPO, N_ENVS
 
 ROOT = Path(__file__).resolve().parents[1]
 FIG = ROOT / "docs" / "report" / "figures"
-plt.rcParams["font.sans-serif"] = ["PingFang SC", "Heiti SC", "Arial Unicode MS", "DejaVu Sans"]
-plt.rcParams["axes.unicode_minus"] = False
+ps.use_style()
 
 TOTAL_STEPS = 500_000
 EVAL_EVERY = 20_480
@@ -74,37 +71,46 @@ def print_example_obs() -> None:
 
 
 def fig_loop() -> None:
-    fig, ax = plt.subplots(figsize=(9.6, 3.9))
+    fig, ax = plt.subplots(figsize=(10.4, 4.3))
     ax.set_xlim(0, 12)
-    ax.set_ylim(0, 4.8)
+    ax.set_ylim(-0.1, 4.9)
     ax.axis("off")
+    accent = ps.HEAT
 
-    def box(x, y, w, h, title, body, face):
-        ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.06,rounding_size=0.15",
-                                    fc=face, ec="#444444", lw=1.2))
-        ax.text(x + w / 2, y + h - 0.32, title, ha="center", va="center", fontsize=12.5, weight="bold")
-        ax.text(x + w / 2, y + (h - 0.55) / 2, body, ha="center", va="center", fontsize=10, linespacing=1.5)
+    def card(x, num, title, body, color, chip=None):
+        y, w, h = 1.35, 3.3, 2.75
+        ax.add_patch(FancyBboxPatch((x + 0.04, y - 0.06), w, h, boxstyle="round,pad=0,rounding_size=0.18",
+                                    fc="#000000", ec="none", alpha=0.06, zorder=1))  # soft shadow
+        ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0,rounding_size=0.18", fc="white", ec=ps.FAINT,
+                                    lw=1.0, zorder=2))
+        ax.add_patch(FancyBboxPatch((x, y + h - 0.62), w, 0.62, boxstyle="round,pad=0,rounding_size=0.18", fc=color,
+                                    ec="none", zorder=3))
+        ax.add_patch(plt.Rectangle((x, y + h - 0.62), w, 0.3, fc=color, ec="none", zorder=3))
+        ax.add_patch(plt.Circle((x + 0.42, y + h - 0.31), 0.19, fc="white", ec="none", zorder=4))
+        ax.text(x + 0.42, y + h - 0.31, num, ha="center", va="center", fontsize=11, weight="semibold", color=color, zorder=5)
+        ax.text(x + 0.75, y + h - 0.31, title, ha="left", va="center", fontsize=12.5, weight="semibold", color="white", zorder=5)
+        ax.text(x + w / 2, y + (h - 0.62) / 2 + (0.18 if chip else 0), body, ha="center", va="center", fontsize=10,
+                linespacing=1.6, zorder=5)
+        if chip:
+            ax.text(x + w / 2, y + 0.3, chip, ha="center", va="center", fontsize=9.5, color=accent, zorder=5,
+                    bbox=dict(boxstyle="round,pad=0.3,rounding_size=0.5", fc=ps.HEAT_SOFT, ec="none"))
 
-    def arrow(p, q, rad=0.0):
-        ax.add_patch(FancyArrowPatch(p, q, arrowstyle="-|>", mutation_scale=16, lw=1.6, color="#333333",
-                                     connectionstyle=f"arc3,rad={rad}"))
+    def arrow(p, q, rad=0.0, ls="-"):
+        ax.add_patch(FancyArrowPatch(p, q, arrowstyle="-|>", mutation_scale=16, lw=1.6, color="#57606a", ls=ls,
+                                     connectionstyle=f"arc3,rad={rad}", zorder=1, shrinkA=0, shrinkB=0))
 
-    box(0.2, 1.6, 3.3, 2.5, "① 收集数据",
-        "8 间房同时运行\n每间走 256 步（15 分钟/步）\n共 2048 步，约 21 天\n动作带随机噪声", "#dbe9f6")
-    box(4.35, 1.6, 3.3, 2.5, "② 算优势",
-        "价值网络给每个状态估值\n用 GAE 算每步的\n“比预期好多少”\n参数 γ=0.99, λ", "#fde9cc")
-    box(8.5, 1.6, 3.3, 2.5, "③ 更新网络",
-        "2048 步数据打乱\n分成 32 批，每批 64 步\n重复 n_epochs 遍\n裁剪幅度 ε", "#d9efd9")
-    arrow((3.55, 2.85), (4.3, 2.85))
-    arrow((7.7, 2.85), (8.45, 2.85))
-    arrow((10.15, 1.55), (1.85, 1.55), rad=-0.18)
-    ax.text(6.0, 0.25, "丢掉旧数据，用新策略重新收集；重复约 245 轮（50 万步）", ha="center", fontsize=10.5)
-    ax.text(6.0, 4.55, "PPO 的一轮训练（红字三个参数是本文消融的对象）", ha="center", fontsize=12)
-    for x, y, s in ((6.0, 1.82, "λ：GAE lambda"), (10.15, 1.82, "ε：clip range    n_epochs：遍数")):
-        ax.text(x, y, s, ha="center", fontsize=9.5, color="#c62828")
-    fig.tight_layout()
-    fig.savefig(FIG / "method_loop.png", dpi=150)
-    plt.close(fig)
+    card(0.2, "1", "收集数据", "8 间房同时运行\n每间走 256 步（15 分钟/步）\n共 2048 步，约 21 天\n动作带随机噪声", ps.COOL)
+    card(4.35, "2", "算优势", "价值网络给每个状态估值\n用 GAE 算每步的\n“比预期好多少”\n参数 γ=0.99, λ", "#c98a1b",
+         chip="λ：GAE lambda")
+    card(8.5, "3", "更新网络", "2048 步数据打乱\n分成 32 批，每批 64 步\n重复 n_epochs 遍\n裁剪幅度 ε", ps.COMFORT,
+         chip="ε：clip range    n_epochs：遍数")
+    arrow((3.58, 2.72), (4.27, 2.72))
+    arrow((7.73, 2.72), (8.42, 2.72))
+    arrow((10.15, 1.27), (1.85, 1.27), rad=-0.2)
+    ax.text(6.0, 0.12, "丢掉旧数据，用新策略重新收集；重复约 245 轮（50 万步）", ha="center", fontsize=10.5, color="#57606a")
+    ax.text(0.2, 4.62, "PPO 的一轮训练", ha="left", va="center", fontsize=13.5, weight="semibold")
+    ax.text(2.25, 4.62, "（红字三个参数是本文消融的对象）", ha="left", va="center", fontsize=10.5, color=accent)
+    ps.save(fig, FIG / "method_loop.png")
     print("wrote", FIG / "method_loop.png")
 
 

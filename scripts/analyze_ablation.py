@@ -21,13 +21,11 @@ import os
 from pathlib import Path
 
 os.environ.setdefault("MPLCONFIGDIR", "/tmp/mpl")
-import matplotlib
-
-matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+from hvac import plotting as ps
 from hvac.controllers import ThermostatController, tuned_thermostat
 from hvac.env import RoomConfig
 from hvac.evaluation import eval_seeds, evaluate_controller, mean_metrics
@@ -38,8 +36,7 @@ RUNS = ROOT / "runs" / "ablation"
 DATA = ROOT / "docs" / "report" / "data"
 FIG = ROOT / "docs" / "report" / "figures"
 
-plt.rcParams["font.sans-serif"] = ["PingFang SC", "Heiti SC", "Arial Unicode MS", "DejaVu Sans"]
-plt.rcParams["axes.unicode_minus"] = False
+ps.use_style()
 
 WEIGHT = RoomConfig().comfort_weight
 TOTAL_STEPS = 204_800
@@ -241,11 +238,30 @@ def _curve_stats(rs: list[dict], key: str) -> tuple[np.ndarray, np.ndarray, np.n
     return t, y.mean(0), y.std(0, ddof=1) if len(rs) > 1 else np.zeros_like(t, dtype=float)
 
 
+def _group_colors(group: str) -> list[str]:
+    _, names, values = GROUPS[group]
+    return ps.ablation_colors(values, values[names.index("baseline")])
+
+
+def _value_label(group: str, value: float, baseline: bool = False) -> str:
+    label = GROUPS[group][0]
+    return f"{label} = {value:g}" + ("（基线）" if baseline else "")
+
+
+def _bold_baseline_tick(ax, names: list[str]) -> None:
+    for tick, name in zip(ax.get_xticklabels(), names):
+        if name == "baseline":
+            tick.set_fontweight("semibold")
+            tick.set_color(ps.INK)
+
+
 def fig_learning_curves(runs: dict[str, list[dict]], refs: dict[str, dict]) -> None:
-    fig, axes = plt.subplots(3, 3, figsize=(15, 11), sharex=True)
-    panels = [("cost", "成本", (3.0, 10.0)), ("energy_kwh", "耗电量（kWh/天）", (3.0, 10.0)), ("discomfort_kh", "不舒适度（K·h/天）", (0.0, 1.0))]
-    for row, (group, (label, names, values)) in enumerate(GROUPS.items()):
-        colors = plt.cm.viridis(np.linspace(0.0, 0.9, len(names)))
+    fig, axes = plt.subplots(3, 3, figsize=(15, 10.5), sharex=True, gridspec_kw={"hspace": 0.16, "wspace": 0.2})
+    panels = [("cost", "成本", (3.3, 9.5)), ("energy_kwh", "耗电量（kWh/天）", (3.3, 9.5)),
+              ("discomfort_kh", "不舒适度（K·h/天）", (0.0, 0.4))]
+    for row, group in enumerate(GROUPS):
+        _, names, values = GROUPS[group]
+        colors = _group_colors(group)
         for col, (key, title, ylim) in enumerate(panels):
             ax = axes[row, col]
             for name, value, color in zip(names, values, colors):
@@ -253,63 +269,80 @@ def fig_learning_curves(runs: dict[str, list[dict]], refs: dict[str, dict]) -> N
                 if not rs:
                     continue
                 t, m, s = _curve_stats(rs, key)
-                ax.plot(t / 1e3, m, color="k" if name == "baseline" else color, lw=2.2 if name == "baseline" else 1.6,
-                        label=f"{label} = {value:g}" + ("（基线）" if name == "baseline" else ""))
-                ax.fill_between(t / 1e3, m - s, m + s, color="k" if name == "baseline" else color, alpha=0.12, lw=0)
-            for ref, style in (("温控器（调过参数）", "--"), ("理论最优", ":")):
-                ax.axhline(refs[ref][key], color="grey", ls=style, lw=1.2, label=ref if row == 0 and col == 0 else None)
+                is_base = name == "baseline"
+                ax.fill_between(t / 1e3, m - s, m + s, color=color, alpha=0.1 if is_base else 0.14, lw=0)
+                ax.plot(t / 1e3, m, color=color, lw=2.4 if is_base else 1.7, zorder=4 if is_base else 3,
+                        label=_value_label(group, value, is_base))
+            ax.axhline(refs["温控器（调过参数）"][key], color=ps.THERMOSTAT, ls=(0, (5, 3)), lw=1.3, zorder=2,
+                       label="温控器（调过参数）")
+            ax.axhline(refs["理论最优"][key], color=ps.MUTED, ls=(0, (1, 2)), lw=1.3, zorder=2, label="理论最优")
             ax.set_ylim(*ylim)
-            ax.grid(alpha=0.3)
+            ax.set_xlim(0, TOTAL_STEPS / 1e3)
+            ax.grid(axis="x", visible=False)
             if row == 0:
-                ax.set_title(title)
+                ps.panel_title(ax, "abc"[col], title)
             if row == 2:
                 ax.set_xlabel("训练步数（千步）")
-        axes[row, 0].legend(fontsize=8.5, loc="upper right")
-    fig.suptitle("训练过程中在 100 个测试日上的评估（线为各种子的均值，阴影为 ±1 个标准差）")
-    fig.tight_layout()
-    fig.savefig(FIG / "ablation_learning_curves.png", dpi=150)
-    plt.close(fig)
+        axes[row, 0].set_ylabel(GROUPS[group][0], fontsize=11.5, weight="semibold", labelpad=8)
+        handles, labels = axes[row, 2].get_legend_handles_labels()
+        axes[row, 2].legend(handles, labels, loc="center left", bbox_to_anchor=(1.03, 0.5), fontsize=9)
+    ps.header(fig, "学习曲线：训练过程中在 100 个测试日上的评估",
+              "线为 10 个种子的均值，阴影为 ±1 个标准差；训练开头几个点的数值超出纵轴范围。蓝色系 = 小于基线的取值，橙红色系 = 大于基线的取值",
+              x=0.09, top=0.915)
+    ps.save(fig, FIG / "ablation_learning_curves.png")
 
 
 def fig_final(runs: dict[str, list[dict]], refs: dict[str, dict]) -> None:
     pred = {(c, m): b for c, m, k, b, _ in PREDICTIONS if k == "range" and m == "cost"}
-    fig, axes = plt.subplots(3, 3, figsize=(15, 11))
+    fig, axes = plt.subplots(3, 3, figsize=(14, 11), gridspec_kw={"hspace": 0.42, "wspace": 0.22})
     panels = [("cost", "成本"), ("energy_kwh", "耗电量（kWh/天）"), ("discomfort_kh", "不舒适度（K·h/天）")]
-    for row, (group, (label, names, values)) in enumerate(GROUPS.items()):
+    rng = np.random.default_rng(0)
+    for row, group in enumerate(GROUPS):
+        label, names, values = GROUPS[group]
+        colors = _group_colors(group)
         for col, (key, title) in enumerate(panels):
             ax = axes[row, col]
-            xs = np.arange(len(names))
-            for i, name in enumerate(names):
+            for i, (name, color) in enumerate(zip(names, colors)):
                 rs = runs.get(name, [])
                 if key == "cost" and (name, "cost") in pred:
                     lo, hi = pred[(name, "cost")]
-                    ax.add_patch(plt.Rectangle((i - 0.3, lo), 0.6, hi - lo, color="C1", alpha=0.25, lw=0,
-                                               label="预测区间" if i == 0 or (name == names[1] and (names[0], "cost") not in pred) else None))
+                    ax.add_patch(plt.Rectangle((i - 0.32, lo), 0.64, hi - lo, fc=ps.PREDICTION, alpha=0.45, lw=0, zorder=0))
+                if name == "baseline":
+                    ax.axvspan(i - 0.45, i + 0.45, color=ps.BG_SOFT, lw=0, zorder=0)
                 if not rs:
                     continue
                 v = np.array([r[key] for r in rs])
-                ax.scatter(np.full(len(v), i) + np.linspace(-0.12, 0.12, len(v)), v, s=10, color="C0", alpha=0.6)
+                jitter = rng.uniform(-0.17, 0.17, len(v))
+                ax.scatter(i + jitter, v, s=16, color=color, alpha=0.45, lw=0, zorder=2)
                 m, lo, hi = mean_ci(v)
-                ax.errorbar(i, m, yerr=[[m - lo], [hi - m]] if len(v) > 1 else None, fmt="o", color="k", capsize=4, ms=6)
-            ax.axhline(refs["温控器（调过参数）"][key], color="grey", ls="--", lw=1.2, label="温控器（调过参数）")
-            ax.set_xticks(xs, [f"{v:g}" for v in values])
+                ax.errorbar(i + 0.0, m, yerr=[[m - lo], [hi - m]] if len(v) > 1 else None, fmt="o", color=color, ms=7.5,
+                            mec="white", mew=1.3, capsize=0, elinewidth=2.4, zorder=4)
+            ax.axhline(refs["温控器（调过参数）"][key], color=ps.THERMOSTAT, ls=(0, (5, 3)), lw=1.3, zorder=1)
+            ax.set_xticks(np.arange(len(names)), [f"{v:g}" for v in values])
+            _bold_baseline_tick(ax, names)
+            ax.set_xlim(-0.6, len(names) - 0.4)
             ax.set_xlabel(label)
-            ax.grid(alpha=0.3, axis="y")
+            ax.grid(axis="x", visible=False)
             if row == 0:
-                ax.set_title(title)
-        handles, labels = axes[row, 0].get_legend_handles_labels()
-        axes[row, 0].legend(dict(zip(labels, handles)).values(), dict(zip(labels, handles)).keys(), fontsize=8.5)
-    fig.suptitle("训练结束时的结果：黑点为均值和 95% 置信区间，蓝点为各个种子，橙色为预测的成本区间")
-    fig.tight_layout()
-    fig.savefig(FIG / "ablation_final.png", dpi=150)
-    plt.close(fig)
+                ps.panel_title(ax, "abc"[col], title)
+    legend = [
+        plt.Line2D([], [], marker="o", ls="none", color=ps.INK, mec="white", ms=8, label="均值与 95% 置信区间"),
+        plt.Line2D([], [], marker="o", ls="none", color=ps.MUTED, alpha=0.5, ms=5, label="单个种子"),
+        plt.Rectangle((0, 0), 1, 1, fc=ps.PREDICTION, alpha=0.45, label="预测的成本区间（3.4 节）"),
+        plt.Line2D([], [], color=ps.THERMOSTAT, ls=(0, (5, 3)), lw=1.3, label="温控器（调过参数）"),
+        plt.Rectangle((0, 0), 1, 1, fc=ps.BG_SOFT, label="基线"),
+    ]
+    fig.legend(handles=legend, loc="lower left", bbox_to_anchor=(0.085, 0.905), ncol=5, fontsize=9.5)
+    ps.header(fig, "训练结束（20 万步）时的结果", "每个配置 10 个种子；颜色同学习曲线：蓝色系 = 小于基线的取值，橙红色系 = 大于基线的取值",
+              x=0.09, top=0.94)
+    ps.save(fig, FIG / "ablation_final.png")
 
 
 def fig_update_size(runs: dict[str, list[dict]]) -> None:
-    fig, axes = plt.subplots(2, 2, figsize=(13, 8), sharex=True)
+    fig, axes = plt.subplots(2, 2, figsize=(13, 8), sharex=True, gridspec_kw={"hspace": 0.12, "wspace": 0.2})
     for col, group in enumerate(("clip", "epochs")):
         label, names, values = GROUPS[group]
-        colors = plt.cm.viridis(np.linspace(0.0, 0.9, len(names)))
+        colors = _group_colors(group)
         for row, key in enumerate(("train/approx_kl", "train/clip_fraction")):
             ax = axes[row, col]
             for name, value, color in zip(names, values, colors):
@@ -318,19 +351,24 @@ def fig_update_size(runs: dict[str, list[dict]]) -> None:
                     continue
                 y = np.stack([r["progress"][key].to_numpy() for r in rs]).mean(0)
                 it = rs[0]["progress"]["time/iterations"].to_numpy()
-                ax.plot(it, y, color="k" if name == "baseline" else color, lw=2.0 if name == "baseline" else 1.4,
-                        label=f"{label} = {value:g}" + ("（基线）" if name == "baseline" else ""))
+                biased = key == "train/approx_kl" and name in ("epochs_1", "epochs_3")
+                ax.plot(it, y, color=color, lw=2.2 if name == "baseline" else 1.5, ls=(0, (4, 2)) if biased else "-",
+                        zorder=4 if name == "baseline" else 3,
+                        label=_value_label(group, value, name == "baseline") + ("（偏小）" if biased else ""))
             ax.set_yscale("log")
-            ax.grid(alpha=0.3, which="both")
-            ax.set_ylabel(key.split("/")[1])
+            ax.grid(which="minor", axis="y", color=ps.FAINT, lw=0.4, alpha=0.5)
+            ax.grid(axis="x", visible=False)
+            ax.set_xlim(1, 100)
+            if col == 0:
+                ax.set_ylabel(key.split("/")[1], fontsize=10.5)
             if row == 1:
                 ax.set_xlabel("第几轮更新")
             if row == 0:
-                ax.legend(fontsize=8.5)
-    fig.suptitle("每轮更新的幅度（各种子的均值）。epochs = 1、3 的 approx_kl 偏小，见 3.1 节")
-    fig.tight_layout()
-    fig.savefig(FIG / "ablation_update_size.png", dpi=150)
-    plt.close(fig)
+                ps.panel_title(ax, "ab"[col], f"改变 {label}")
+                ax.legend(fontsize=8.8, loc="lower right", ncol=2 if col == 0 else 1)
+    ps.header(fig, "每轮更新的幅度（10 个种子的均值，对数纵轴）",
+              "虚线：epochs = 1、3 的 approx_kl 只统计了每轮的最后一遍，会偏小，见 3.1 节", x=0.07, top=0.935)
+    ps.save(fig, FIG / "ablation_update_size.png")
 
 
 def summary_markdown(summary: pd.DataFrame, runs: dict[str, list[dict]]) -> str:
@@ -473,41 +511,93 @@ def fig_tradeoff(runs: dict[str, list[dict]], refs: dict[str, dict]) -> None:
     e = np.stack([r["curve"]["energy_kwh"].to_numpy() for r in base]).mean(0)
     d = np.stack([r["curve"]["discomfort_kh"].to_numpy() for r in base]).mean(0)
     keep = t >= 16_384
-    fig, ax = plt.subplots(figsize=(10, 6.5))
-    ax.plot(e[keep], d[keep], color="k", lw=1.5, marker=".", ms=5, label="基线的训练过程（每 8,192 步一个点）")
-    for k in (24_576, 49_152, 98_304, 147_456):
-        i = list(t).index(k)
-        ax.annotate(f"{k // 1000}k 步", (e[i], d[i]), textcoords="offset points", xytext=(4, 6), fontsize=8.5, color="k")
+    fig, (ax0, ax) = plt.subplots(1, 2, figsize=(14, 6.4), gridspec_kw={"width_ratios": [1, 1.75], "wspace": 0.16})
     markers = {"epochs": "s", "clip": "^", "lambda": "o"}
-    for group, (label, names, values) in GROUPS.items():
-        colors = plt.cm.viridis(np.linspace(0.0, 0.9, len(names)))
-        for name, value, color in zip(names, values, colors):
-            if name == "baseline" or not runs.get(name):
-                continue
-            ee = np.array([r["energy_kwh"] for r in runs[name]])
-            dd = np.array([r["discomfort_kh"] for r in runs[name]])
-            me, le, he = mean_ci(ee)
-            md, ld, hd = mean_ci(dd)
-            ax.errorbar(me, md, xerr=[[me - le], [he - me]], yerr=[[md - ld], [hd - md]], fmt=markers[group], color=color,
-                        ms=8, capsize=3, mec="k", mew=0.6, label=f"{label} = {value:g}")
-    be = np.array([r["energy_kwh"] for r in base]); bd = np.array([r["discomfort_kh"] for r in base])
-    ax.plot(be.mean(), bd.mean(), "*", color="red", ms=16, mec="k", label="基线，训练结束")
-    for name, style in (("温控器（调过参数）", "P"), ("理论最优", "X")):
-        ax.plot(refs[name]["energy_kwh"], refs[name]["discomfort_kh"], style, color="grey", ms=11, mec="k", label=name)
-    for c in (4.48, 4.73, 5.5):
-        xs = np.linspace(3.3, 8.5, 50)
-        ax.plot(xs, (c - xs) / WEIGHT, color="grey", lw=0.6, ls=":")
-        ax.text(c - 2 * 0.0 - 0.02, 0.005, f"成本 {c}", fontsize=7.5, color="grey", ha="right", rotation=-60)
-    ax.set_xlim(3.3, 8.5)
-    ax.set_ylim(-0.01, 0.45)
-    ax.set_xlabel("耗电量（kWh/天）")
-    ax.set_ylabel("不舒适度（K·h/天）")
-    ax.grid(alpha=0.3)
-    ax.legend(fontsize=8, ncol=2, loc="upper right")
-    ax.set_title("训练结束时各配置的位置（均值与 95% 区间）；虚线为等成本线")
-    fig.tight_layout()
-    fig.savefig(FIG / "ablation_tradeoff.png", dpi=150)
-    plt.close(fig)
+    short = {"epochs": "epochs", "clip": "clip", "lambda": "λ"}
+    # label offsets in points for the zoomed panel, chosen so labels do not collide
+    offsets = {"epochs_30": (-10, 4, "right"), "epochs_3": (0, 14, "center"), "clip_0.05": (10, 0, "left"),
+               "clip_0.1": (7, -13, "left"), "clip_0.3": (8, 10, "left"), "clip_0.5": (9, 4, "left"),
+               "lambda_0.8": (-10, 4, "right"), "lambda_0.9": (10, 6, "left"), "lambda_0.99": (0, -16, "center"),
+               "lambda_1": (8, 10, "left")}
+    be, bd = np.array([r["energy_kwh"] for r in base]), np.array([r["discomfort_kh"] for r in base])
+
+    def iso(a, xs, labelled):
+        for c in (4.48, 4.73, 5.5):
+            a.plot(xs, (c - xs) / WEIGHT, color=ps.MUTED, lw=0.7, ls=(0, (1, 2.5)), zorder=0)
+            if labelled:  # label where the line enters the zoomed window (top edge, else left edge)
+                y = 0.37
+                x = c - WEIGHT * y
+                if x < 4.02:
+                    x = 4.02
+                    y = (c - x) / WEIGHT
+                a.text(x, y, f"成本 {c}", fontsize=8.5, color=ps.MUTED, ha="left", va="center", clip_on=True,
+                       bbox=dict(boxstyle="round,pad=0.12", fc="white", ec="none"))
+
+    for a, zoom in ((ax0, False), (ax, True)):
+        a.plot(e[keep], d[keep], color=ps.BASELINE, lw=1.4, alpha=0.85, marker="o", ms=2.6, zorder=2,
+               label="基线的训练过程（每 8,192 步一个点）")
+        iso(a, np.linspace(3.0, 9.0, 60), zoom)
+        for group, (label, names, values) in GROUPS.items():
+            for name, value, color in zip(names, values, _group_colors(group)):
+                if name == "baseline" or not runs.get(name):
+                    continue
+                ee = np.array([r["energy_kwh"] for r in runs[name]])
+                dd = np.array([r["discomfort_kh"] for r in runs[name]])
+                me, le, he = mean_ci(ee)
+                md, ld, hd = mean_ci(dd)
+                if zoom:
+                    a.errorbar(me, md, xerr=[[me - le], [he - me]], yerr=[[md - ld], [hd - md]], fmt="none", ecolor=color,
+                               elinewidth=1.1, alpha=0.45, capsize=0, zorder=3)
+                a.plot(me, md, markers[group], color=color, ms=9 if zoom else 7, mec="white", mew=1.0, zorder=5)
+                if zoom and name in offsets:
+                    dx, dy, ha = offsets[name]
+                    a.annotate(f"{short[group]} = {value:g}", (me, md), xytext=(dx, dy), textcoords="offset points",
+                               fontsize=9, color=color, ha=ha, va="center", weight="semibold", zorder=6,
+                               bbox=dict(boxstyle="round,pad=0.1", fc="white", ec="none", alpha=0.85))
+        a.plot(be.mean(), bd.mean(), "*", color=ps.HEAT, ms=19 if zoom else 15, mec="white", mew=1.0, zorder=6)
+        a.plot(refs["温控器（调过参数）"]["energy_kwh"], refs["温控器（调过参数）"]["discomfort_kh"], "P", color=ps.THERMOSTAT,
+               ms=12 if zoom else 9, mec="white", mew=1.0, zorder=6)
+        a.plot(refs["理论最优"]["energy_kwh"], refs["理论最优"]["discomfort_kh"], "X", color=ps.MUTED, ms=11, mec="white", mew=1.0,
+               zorder=6)
+        a.set_xlabel("耗电量（kWh/天）")
+
+    # overview: full training path, the zoom window, a few step labels
+    x0, x1, y0, y1 = 4.0, 5.45, -0.012, 0.4
+    for k, off, ha in ((24_576, (-6, 12), "right"), (49_152, (0, 12), "center"), (98_304, (24, 0), "left")):
+        i = list(t).index(k)
+        ax0.annotate(f"{k // 1000}k 步", (e[i], d[i]), textcoords="offset points", xytext=off, fontsize=8.5,
+                     color=ps.MUTED, ha=ha, va="center")
+    ax0.annotate("epochs = 1", (np.mean([r["energy_kwh"] for r in runs["epochs_1"]]), 0.0), xytext=(0, -13),
+                 textcoords="offset points", fontsize=9, color=_group_colors("epochs")[0], ha="center", weight="semibold")
+    ax0.annotate("理论最优", (refs["理论最优"]["energy_kwh"], 0.0), xytext=(0, 13), textcoords="offset points", fontsize=9,
+                 color=ps.MUTED, ha="center", weight="semibold")
+    ax0.add_patch(plt.Rectangle((x0, y0), x1 - x0, y1 - y0, fill=False, ec=ps.INK, lw=0.9, ls=(0, (3, 2)), zorder=1))
+    ax0.text(x0 + 0.05, y1 + 0.008, "右图范围", fontsize=8.5, color=ps.INK, va="bottom")
+    ax0.set_xlim(3.3, 8.6)
+    ax0.set_ylim(-0.04, 0.47)
+    ax0.set_ylabel("不舒适度（K·h/天）")
+    ps.panel_title(ax0, "a", "全貌")
+
+    # zoom: labels for the references and the baseline end point
+    ax.annotate("基线，训练结束", (be.mean(), bd.mean()), xytext=(-14, -18), textcoords="offset points", fontsize=9.5,
+                color=ps.HEAT, weight="semibold", ha="right", va="center", arrowprops=dict(arrowstyle="-", color=ps.HEAT, lw=0.8))
+    ax.annotate("温控器（调过参数）", (refs["温控器（调过参数）"]["energy_kwh"], refs["温控器（调过参数）"]["discomfort_kh"]),
+                xytext=(0, -16), textcoords="offset points", fontsize=9.5, color=ps.THERMOSTAT, weight="semibold", ha="center")
+    i = int(np.argmin(np.where(keep, np.abs(e - 5.33), np.inf)))
+    ax.annotate("黑线：基线的训练过程\n（从右下往左上走）", (e[i], d[i]), xytext=(-30, 52), textcoords="offset points", fontsize=9,
+                color=ps.MUTED, ha="center", va="bottom", arrowprops=dict(arrowstyle="-", color=ps.MUTED, lw=0.8))
+    ax.set_xlim(x0, x1)
+    ax.set_ylim(y0, y1)
+    ps.panel_title(ax, "b", "放大：训练结束时各配置的位置")
+    legend = [plt.Line2D([], [], marker=m, ls="none", color=ps.MUTED, mec="white", ms=8, label=f"改变 {GROUPS[g][0]}")
+              for g, m in markers.items()]
+    legend += [plt.Line2D([], [], color=ps.MUTED, lw=1.1, alpha=0.6, label="95% 置信区间"),
+               plt.Line2D([], [], color=ps.MUTED, lw=0.7, ls=(0, (1, 2.5)), label="等成本线")]
+    ax.legend(handles=legend, loc="upper right", fontsize=9)
+    ps.header(fig, "耗电与不舒适度的权衡",
+              "点为 10 个种子的均值；多数配置落在基线自己的训练轨迹附近。蓝色系 = 小于基线的取值，橙红色系 = 大于基线的取值",
+              x=0.09, top=0.93)
+    ps.save(fig, FIG / "ablation_tradeoff.png")
 
 
 if __name__ == "__main__":
