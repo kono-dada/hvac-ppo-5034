@@ -1,0 +1,1226 @@
+{
+ "total_steps": 204800,
+ "comfort_weight": 2.0,
+ "ablation": {
+  "baseline": {
+   "name": "baseline",
+   "value": null,
+   "seeds": 10,
+   "cost": 4.732907,
+   "cost_sd": 0.115908,
+   "energy_kwh": 4.570191,
+   "discomfort_kh": 0.081358,
+   "violation_pct": 2.6125,
+   "rollback": 0.095202,
+   "approx_kl": 0.009071,
+   "clip_fraction": 0.089339,
+   "train_seconds": 31.129014,
+   "seed_costs": [
+    4.6939,
+    4.7334,
+    4.6293,
+    4.6955,
+    4.7728,
+    5.0357,
+    4.6762,
+    4.6392,
+    4.6954,
+    4.7576
+   ],
+   "sigma_end": 0.055181,
+   "gradient_steps": 32000,
+   "sigma_drop_vs_bound": 0.301786,
+   "baseline_steps_to_reach": 204800.0,
+   "cost_at": {
+    "49152": 6.594413,
+    "98304": 5.1631,
+    "147456": 4.842132
+   },
+   "approx_kl_max": 0.029651,
+   "rounds_kl_above_0.1": 0
+  },
+  "groups": [
+   {
+    "key": "epochs",
+    "param": "n_epochs",
+    "default": 10,
+    "rows": [
+     {
+      "name": "epochs_1",
+      "value": 1,
+      "seeds": 10,
+      "cost": 7.99788,
+      "cost_sd": 0.45498,
+      "energy_kwh": 7.99788,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "rollback": 0.529896,
+      "approx_kl": 0.002044,
+      "clip_fraction": 0.020218,
+      "train_seconds": 11.07004,
+      "seed_costs": [
+       8.1037,
+       7.799,
+       8.6079,
+       7.9956,
+       8.1239,
+       7.5718,
+       8.5061,
+       8.1417,
+       8.1068,
+       7.0222
+      ],
+      "sigma_end": 0.536844,
+      "gradient_steps": 3200,
+      "sigma_drop_vs_bound": 0.647966,
+      "baseline_steps_to_reach": 23234.868122,
+      "cost_at": {
+       "49152": 9.258163,
+       "98304": 8.439489,
+       "147456": 8.30242
+      },
+      "approx_kl_max": 0.006778,
+      "rounds_kl_above_0.1": 0,
+      "diff": {
+       "cost": {
+        "d": 3.264973,
+        "lo": 2.934874,
+        "hi": 3.595072,
+        "significant": true
+       },
+       "energy_kwh": {
+        "d": 3.427688,
+        "lo": 3.096452,
+        "hi": 3.758925,
+        "significant": true
+       },
+       "discomfort_kh": {
+        "d": -0.081358,
+        "lo": -0.104079,
+        "hi": -0.058637,
+        "significant": true
+       },
+       "rollback": {
+        "d": 0.434694,
+        "lo": 0.162409,
+        "hi": 0.70698,
+        "significant": true
+       }
+      },
+      "sd_ratio": {
+       "ratio": 3.925342,
+       "p": 0.000377,
+       "significant": true
+      },
+      "predicted_cost": [
+       6.5,
+       8.5
+      ],
+      "verdicts": {
+       "hit": 4,
+       "partial": 0,
+       "miss": 1,
+       "undecided": 0
+      },
+      "predictions": {
+       "cost": {
+        "label": "6.5–8.5",
+        "verdict": "hit"
+       },
+       "energy_kwh": {
+        "label": "much higher",
+        "verdict": "hit"
+       },
+       "discomfort_kh": {
+        "label": "< 0.05",
+        "verdict": "hit"
+       }
+      }
+     },
+     {
+      "name": "epochs_3",
+      "value": 3,
+      "seeds": 10,
+      "cost": 5.376265,
+      "cost_sd": 0.154175,
+      "energy_kwh": 5.237969,
+      "discomfort_kh": 0.069148,
+      "violation_pct": 1.445,
+      "rollback": 0.09289,
+      "approx_kl": 0.004342,
+      "clip_fraction": 0.040409,
+      "train_seconds": 16.670849,
+      "seed_costs": [
+       5.2168,
+       5.362,
+       5.5526,
+       5.4675,
+       5.2616,
+       5.2929,
+       5.1108,
+       5.4502,
+       5.5915,
+       5.457
+      ],
+      "sigma_end": 0.200014,
+      "gradient_steps": 9600,
+      "sigma_drop_vs_bound": 0.558809,
+      "baseline_steps_to_reach": 85530.055618,
+      "cost_at": {
+       "49152": 7.780255,
+       "98304": 7.070144,
+       "147456": 6.296504
+      },
+      "approx_kl_max": 0.010688,
+      "rounds_kl_above_0.1": 0,
+      "diff": {
+       "cost": {
+        "d": 0.643359,
+        "lo": 0.514499,
+        "hi": 0.772219,
+        "significant": true
+       },
+       "energy_kwh": {
+        "d": 0.667778,
+        "lo": 0.504455,
+        "hi": 0.831101,
+        "significant": true
+       },
+       "discomfort_kh": {
+        "d": -0.01221,
+        "lo": -0.045273,
+        "hi": 0.020854,
+        "significant": false
+       },
+       "rollback": {
+        "d": -0.002312,
+        "lo": -0.058364,
+        "hi": 0.053739,
+        "significant": false
+       }
+      },
+      "sd_ratio": {
+       "ratio": 1.330149,
+       "p": 0.408187,
+       "significant": false
+      },
+      "predicted_cost": [
+       5.4,
+       6.4
+      ],
+      "verdicts": {
+       "hit": 2,
+       "partial": 1,
+       "miss": 0,
+       "undecided": 2
+      },
+      "predictions": {
+       "cost": {
+        "label": "5.4–6.4",
+        "verdict": "partial"
+       },
+       "energy_kwh": {
+        "label": "higher",
+        "verdict": "hit"
+       },
+       "discomfort_kh": {
+        "label": "lower",
+        "verdict": "undecided"
+       }
+      }
+     },
+     {
+      "name": "epochs_30",
+      "value": 30,
+      "seeds": 10,
+      "cost": 4.656449,
+      "cost_sd": 0.177032,
+      "energy_kwh": 4.387273,
+      "discomfort_kh": 0.134588,
+      "violation_pct": 4.0,
+      "rollback": 0.23622,
+      "approx_kl": 0.016351,
+      "clip_fraction": 0.146687,
+      "train_seconds": 83.479057,
+      "seed_costs": [
+       4.4407,
+       4.9209,
+       4.4812,
+       4.6544,
+       4.5895,
+       4.668,
+       4.6657,
+       4.8816,
+       4.4335,
+       4.8289
+      ],
+      "sigma_end": 0.033183,
+      "gradient_steps": 96000,
+      "sigma_drop_vs_bound": 0.118254,
+      "baseline_steps_to_reach": null,
+      "cost_at": {
+       "49152": 5.803414,
+       "98304": 4.87719,
+       "147456": 4.687555
+      },
+      "approx_kl_max": 0.04751,
+      "rounds_kl_above_0.1": 0,
+      "diff": {
+       "cost": {
+        "d": -0.076458,
+        "lo": -0.218668,
+        "hi": 0.065753,
+        "significant": false
+       },
+       "energy_kwh": {
+        "d": -0.182919,
+        "lo": -0.319319,
+        "hi": -0.046519,
+        "significant": true
+       },
+       "discomfort_kh": {
+        "d": 0.05323,
+        "lo": -0.010854,
+        "hi": 0.117315,
+        "significant": false
+       },
+       "rollback": {
+        "d": 0.141018,
+        "lo": 0.034585,
+        "hi": 0.247451,
+        "significant": true
+       }
+      },
+      "sd_ratio": {
+       "ratio": 1.527346,
+       "p": 0.222993,
+       "significant": false
+      },
+      "predicted_cost": [
+       4.6,
+       5.0
+      ],
+      "verdicts": {
+       "hit": 5,
+       "partial": 0,
+       "miss": 0,
+       "undecided": 1
+      },
+      "predictions": {
+       "cost": {
+        "label": "4.6–5.0",
+        "verdict": "hit"
+       },
+       "energy_kwh": {
+        "label": "lower",
+        "verdict": "hit"
+       },
+       "discomfort_kh": {
+        "label": "higher",
+        "verdict": "undecided"
+       }
+      }
+     }
+    ]
+   },
+   {
+    "key": "clip",
+    "param": "clip_range",
+    "default": 0.2,
+    "rows": [
+     {
+      "name": "clip_0.05",
+      "value": 0.05,
+      "seeds": 10,
+      "cost": 4.946506,
+      "cost_sd": 0.133037,
+      "energy_kwh": 4.892414,
+      "discomfort_kh": 0.027046,
+      "violation_pct": 0.65,
+      "rollback": 0.017138,
+      "approx_kl": 0.001398,
+      "clip_fraction": 0.156802,
+      "train_seconds": 34.371709,
+      "seed_costs": [
+       4.8362,
+       4.9644,
+       5.1266,
+       4.78,
+       5.0102,
+       4.9586,
+       4.8448,
+       4.9316,
+       4.8264,
+       5.1862
+      ],
+      "sigma_end": 0.11442,
+      "gradient_steps": 32000,
+      "sigma_drop_vs_bound": 0.225821,
+      "baseline_steps_to_reach": 126579.061442,
+      "cost_at": {
+       "49152": 7.542351,
+       "98304": 6.305684,
+       "147456": 5.460949
+      },
+      "approx_kl_max": 0.003253,
+      "rounds_kl_above_0.1": 0,
+      "diff": {
+       "cost": {
+        "d": 0.213599,
+        "lo": 0.096215,
+        "hi": 0.330983,
+        "significant": true
+       },
+       "energy_kwh": {
+        "d": 0.322222,
+        "lo": 0.195979,
+        "hi": 0.448466,
+        "significant": true
+       },
+       "discomfort_kh": {
+        "d": -0.054312,
+        "lo": -0.078137,
+        "hi": -0.030487,
+        "significant": true
+       },
+       "rollback": {
+        "d": -0.078064,
+        "lo": -0.11115,
+        "hi": -0.044979,
+        "significant": true
+       }
+      },
+      "sd_ratio": {
+       "ratio": 1.147779,
+       "p": 0.688004,
+       "significant": false
+      },
+      "predicted_cost": [
+       5.2,
+       6.0
+      ],
+      "verdicts": {
+       "hit": 4,
+       "partial": 0,
+       "miss": 2,
+       "undecided": 0
+      },
+      "predictions": {
+       "cost": {
+        "label": "5.2–6.0",
+        "verdict": "miss"
+       },
+       "energy_kwh": {
+        "label": "higher",
+        "verdict": "hit"
+       },
+       "discomfort_kh": {
+        "label": "not higher",
+        "verdict": "hit"
+       }
+      }
+     },
+     {
+      "name": "clip_0.1",
+      "value": 0.1,
+      "seeds": 10,
+      "cost": 4.774069,
+      "cost_sd": 0.120621,
+      "energy_kwh": 4.615822,
+      "discomfort_kh": 0.079124,
+      "violation_pct": 2.09,
+      "rollback": 0.031819,
+      "approx_kl": 0.003524,
+      "clip_fraction": 0.121771,
+      "train_seconds": 34.395084,
+      "seed_costs": [
+       4.6967,
+       4.8377,
+       4.6836,
+       4.6806,
+       4.8757,
+       4.7959,
+       4.6968,
+       4.6919,
+       4.7278,
+       5.0539
+      ],
+      "sigma_end": 0.072278,
+      "gradient_steps": 32000,
+      "sigma_drop_vs_bound": 0.273671,
+      "baseline_steps_to_reach": 193424.643319,
+      "cost_at": {
+       "49152": 7.032286,
+       "98304": 5.466181,
+       "147456": 4.963374
+      },
+      "approx_kl_max": 0.013787,
+      "rounds_kl_above_0.1": 0,
+      "diff": {
+       "cost": {
+        "d": 0.041163,
+        "lo": -0.069989,
+        "hi": 0.152314,
+        "significant": false
+       },
+       "energy_kwh": {
+        "d": 0.04563,
+        "lo": -0.09534,
+        "hi": 0.186601,
+        "significant": false
+       },
+       "discomfort_kh": {
+        "d": -0.002234,
+        "lo": -0.033567,
+        "hi": 0.029099,
+        "significant": false
+       },
+       "rollback": {
+        "d": -0.063383,
+        "lo": -0.096913,
+        "hi": -0.029854,
+        "significant": true
+       }
+      },
+      "sd_ratio": {
+       "ratio": 1.040657,
+       "p": 0.907435,
+       "significant": false
+      },
+      "predicted_cost": [
+       4.8,
+       5.1
+      ],
+      "verdicts": {
+       "hit": 2,
+       "partial": 1,
+       "miss": 0,
+       "undecided": 1
+      },
+      "predictions": {
+       "cost": {
+        "label": "4.8–5.1",
+        "verdict": "partial"
+       },
+       "energy_kwh": {
+        "label": "higher",
+        "verdict": "undecided"
+       },
+       "discomfort_kh": {
+        "label": "same",
+        "verdict": "hit"
+       }
+      }
+     },
+     {
+      "name": "clip_0.3",
+      "value": 0.3,
+      "seeds": 10,
+      "cost": 4.763881,
+      "cost_sd": 0.103098,
+      "energy_kwh": 4.533432,
+      "discomfort_kh": 0.115225,
+      "violation_pct": 3.59,
+      "rollback": 0.20251,
+      "approx_kl": 0.017442,
+      "clip_fraction": 0.074113,
+      "train_seconds": 39.863267,
+      "seed_costs": [
+       4.8049,
+       4.8552,
+       4.7703,
+       4.6188,
+       4.7724,
+       4.7426,
+       4.7333,
+       4.9841,
+       4.6752,
+       4.6819
+      ],
+      "sigma_end": 0.049302,
+      "gradient_steps": 32000,
+      "sigma_drop_vs_bound": 0.31352,
+      "baseline_steps_to_reach": 195388.667093,
+      "cost_at": {
+       "49152": 6.362664,
+       "98304": 5.094642,
+       "147456": 4.89207
+      },
+      "approx_kl_max": 0.117447,
+      "rounds_kl_above_0.1": 2,
+      "diff": {
+       "cost": {
+        "d": 0.030975,
+        "lo": -0.072186,
+        "hi": 0.134136,
+        "significant": false
+       },
+       "energy_kwh": {
+        "d": -0.03676,
+        "lo": -0.134871,
+        "hi": 0.061352,
+        "significant": false
+       },
+       "discomfort_kh": {
+        "d": 0.033867,
+        "lo": -0.016258,
+        "hi": 0.083993,
+        "significant": false
+       },
+       "rollback": {
+        "d": 0.107308,
+        "lo": 0.008622,
+        "hi": 0.205993,
+        "significant": true
+       }
+      },
+      "sd_ratio": {
+       "ratio": 0.889478,
+       "p": 0.73282,
+       "significant": false
+      },
+      "predicted_cost": [
+       4.6,
+       4.9
+      ],
+      "verdicts": {
+       "hit": 3,
+       "partial": 0,
+       "miss": 0,
+       "undecided": 2
+      },
+      "predictions": {
+       "cost": {
+        "label": "4.6–4.9",
+        "verdict": "hit"
+       },
+       "energy_kwh": {
+        "label": "same",
+        "verdict": "undecided"
+       },
+       "discomfort_kh": {
+        "label": "same",
+        "verdict": "undecided"
+       }
+      }
+     },
+     {
+      "name": "clip_0.5",
+      "value": 0.5,
+      "seeds": 10,
+      "cost": 5.105832,
+      "cost_sd": 0.45202,
+      "energy_kwh": 4.711188,
+      "discomfort_kh": 0.197322,
+      "violation_pct": 4.9425,
+      "rollback": 0.574871,
+      "approx_kl": 0.070544,
+      "clip_fraction": 0.069493,
+      "train_seconds": 44.01412,
+      "seed_costs": [
+       4.8901,
+       4.9516,
+       5.3531,
+       6.2818,
+       4.8116,
+       4.9483,
+       5.2419,
+       4.8119,
+       4.954,
+       4.8141
+      ],
+      "sigma_end": 0.043346,
+      "gradient_steps": 32000,
+      "sigma_drop_vs_bound": 0.326932,
+      "baseline_steps_to_reach": 102974.696393,
+      "cost_at": {
+       "49152": 6.252077,
+       "98304": 5.179653,
+       "147456": 4.931107
+      },
+      "approx_kl_max": 2.204671,
+      "rounds_kl_above_0.1": 110,
+      "diff": {
+       "cost": {
+        "d": 0.372926,
+        "lo": 0.044908,
+        "hi": 0.700943,
+        "significant": true
+       },
+       "energy_kwh": {
+        "d": 0.140996,
+        "lo": -0.05655,
+        "hi": 0.338543,
+        "significant": false
+       },
+       "discomfort_kh": {
+        "d": 0.115965,
+        "lo": -0.058329,
+        "hi": 0.290258,
+        "significant": false
+       },
+       "rollback": {
+        "d": 0.479669,
+        "lo": 0.180664,
+        "hi": 0.778674,
+        "significant": true
+       }
+      },
+      "sd_ratio": {
+       "ratio": 3.899806,
+       "p": 0.000398,
+       "significant": true
+      },
+      "predicted_cost": [
+       4.6,
+       4.9
+      ],
+      "verdicts": {
+       "hit": 3,
+       "partial": 1,
+       "miss": 1,
+       "undecided": 2
+      },
+      "predictions": {
+       "cost": {
+        "label": "4.6–4.9",
+        "verdict": "partial"
+       },
+       "energy_kwh": {
+        "label": "same",
+        "verdict": "undecided"
+       },
+       "discomfort_kh": {
+        "label": "same",
+        "verdict": "undecided"
+       }
+      }
+     }
+    ]
+   },
+   {
+    "key": "lambda",
+    "param": "gae_lambda",
+    "default": 0.95,
+    "rows": [
+     {
+      "name": "lambda_0.8",
+      "value": 0.8,
+      "seeds": 10,
+      "cost": 4.787839,
+      "cost_sd": 0.147906,
+      "energy_kwh": 4.436702,
+      "discomfort_kh": 0.175568,
+      "violation_pct": 3.975,
+      "rollback": 0.138062,
+      "approx_kl": 0.011053,
+      "clip_fraction": 0.107292,
+      "train_seconds": 37.051538,
+      "seed_costs": [
+       4.7685,
+       4.6143,
+       4.6986,
+       4.9035,
+       4.6661,
+       4.9516,
+       4.6481,
+       4.8777,
+       5.0491,
+       4.7009
+      ],
+      "sigma_end": 0.046053,
+      "gradient_steps": 32000,
+      "sigma_drop_vs_bound": 0.320622,
+      "baseline_steps_to_reach": 190770.179608,
+      "cost_at": {
+       "49152": 6.989255,
+       "98304": 5.277339,
+       "147456": 5.001614
+      },
+      "approx_kl_max": 0.036275,
+      "rounds_kl_above_0.1": 0,
+      "diff": {
+       "cost": {
+        "d": 0.054932,
+        "lo": -0.070424,
+        "hi": 0.180289,
+        "significant": false
+       },
+       "energy_kwh": {
+        "d": -0.133489,
+        "lo": -0.269719,
+        "hi": 0.00274,
+        "significant": false
+       },
+       "discomfort_kh": {
+        "d": 0.094211,
+        "lo": 0.016656,
+        "hi": 0.171766,
+        "significant": true
+       },
+       "rollback": {
+        "d": 0.04286,
+        "lo": -0.021612,
+        "hi": 0.107332,
+        "significant": false
+       }
+      },
+      "sd_ratio": {
+       "ratio": 1.276057,
+       "p": 0.478973,
+       "significant": false
+      },
+      "predicted_cost": [
+       4.5,
+       5.0
+      ],
+      "verdicts": {
+       "hit": 3,
+       "partial": 0,
+       "miss": 0,
+       "undecided": 1
+      },
+      "predictions": {
+       "cost": {
+        "label": "4.5–5.0",
+        "verdict": "hit"
+       },
+       "energy_kwh": {
+        "label": "same",
+        "verdict": "undecided"
+       },
+       "discomfort_kh": {
+        "label": "< 0.3",
+        "verdict": "hit"
+       }
+      }
+     },
+     {
+      "name": "lambda_0.9",
+      "value": 0.9,
+      "seeds": 10,
+      "cost": 4.743408,
+      "cost_sd": 0.124458,
+      "energy_kwh": 4.452444,
+      "discomfort_kh": 0.145482,
+      "violation_pct": 4.215,
+      "rollback": 0.170409,
+      "approx_kl": 0.009934,
+      "clip_fraction": 0.097507,
+      "train_seconds": 34.301888,
+      "seed_costs": [
+       4.9357,
+       4.7478,
+       4.5573,
+       4.8252,
+       4.7092,
+       4.7191,
+       4.6701,
+       4.8619,
+       4.5682,
+       4.8395
+      ],
+      "sigma_end": 0.047896,
+      "gradient_steps": 32000,
+      "sigma_drop_vs_bound": 0.316535,
+      "baseline_steps_to_reach": 201309.939537,
+      "cost_at": {
+       "49152": 6.52552,
+       "98304": 5.11442,
+       "147456": 4.819489
+      },
+      "approx_kl_max": 0.030791,
+      "rounds_kl_above_0.1": 0,
+      "diff": {
+       "cost": {
+        "d": 0.010502,
+        "lo": -0.10253,
+        "hi": 0.123533,
+        "significant": false
+       },
+       "energy_kwh": {
+        "d": -0.117747,
+        "lo": -0.243757,
+        "hi": 0.008262,
+        "significant": false
+       },
+       "discomfort_kh": {
+        "d": 0.064124,
+        "lo": 0.011388,
+        "hi": 0.116861,
+        "significant": true
+       },
+       "rollback": {
+        "d": 0.075207,
+        "lo": -0.029757,
+        "hi": 0.180171,
+        "significant": false
+       }
+      },
+      "sd_ratio": {
+       "ratio": 1.073762,
+       "p": 0.835554,
+       "significant": false
+      },
+      "predicted_cost": [
+       4.6,
+       4.8
+      ],
+      "verdicts": {
+       "hit": 1,
+       "partial": 0,
+       "miss": 1,
+       "undecided": 2
+      },
+      "predictions": {
+       "cost": {
+        "label": "4.6–4.8",
+        "verdict": "hit"
+       },
+       "energy_kwh": {
+        "label": "same",
+        "verdict": "undecided"
+       },
+       "discomfort_kh": {
+        "label": "same",
+        "verdict": "miss"
+       }
+      }
+     },
+     {
+      "name": "lambda_0.99",
+      "value": 0.99,
+      "seeds": 10,
+      "cost": 4.901741,
+      "cost_sd": 0.098602,
+      "energy_kwh": 4.786285,
+      "discomfort_kh": 0.057728,
+      "violation_pct": 1.705,
+      "rollback": 0.135803,
+      "approx_kl": 0.007657,
+      "clip_fraction": 0.076009,
+      "train_seconds": 34.395051,
+      "seed_costs": [
+       4.7607,
+       4.8379,
+       4.9374,
+       4.9587,
+       4.9108,
+       5.0209,
+       4.9812,
+       4.9224,
+       4.7187,
+       4.9687
+      ],
+      "sigma_end": 0.069041,
+      "gradient_steps": 32000,
+      "sigma_drop_vs_bound": 0.278444,
+      "baseline_steps_to_reach": 133723.530187,
+      "cost_at": {
+       "49152": 7.008363,
+       "98304": 5.559982,
+       "147456": 5.077575
+      },
+      "approx_kl_max": 0.019796,
+      "rounds_kl_above_0.1": 0,
+      "diff": {
+       "cost": {
+        "d": 0.168835,
+        "lo": 0.067548,
+        "hi": 0.270122,
+        "significant": true
+       },
+       "energy_kwh": {
+        "d": 0.216093,
+        "lo": 0.098591,
+        "hi": 0.333595,
+        "significant": true
+       },
+       "discomfort_kh": {
+        "d": -0.023629,
+        "lo": -0.059452,
+        "hi": 0.012194,
+        "significant": false
+       },
+       "rollback": {
+        "d": 0.0406,
+        "lo": -0.038948,
+        "hi": 0.120149,
+        "significant": false
+       }
+      },
+      "sd_ratio": {
+       "ratio": 0.850693,
+       "p": 0.637743,
+       "significant": false
+      },
+      "predicted_cost": [
+       4.7,
+       5.1
+      ],
+      "verdicts": {
+       "hit": 2,
+       "partial": 0,
+       "miss": 0,
+       "undecided": 2
+      },
+      "predictions": {
+       "cost": {
+        "label": "4.7–5.1",
+        "verdict": "hit"
+       },
+       "energy_kwh": {
+        "label": "higher",
+        "verdict": "hit"
+       }
+      }
+     },
+     {
+      "name": "lambda_1",
+      "value": 1.0,
+      "seeds": 10,
+      "cost": 5.021313,
+      "cost_sd": 0.153825,
+      "energy_kwh": 4.883854,
+      "discomfort_kh": 0.06873,
+      "violation_pct": 1.925,
+      "rollback": 0.129806,
+      "approx_kl": 0.007032,
+      "clip_fraction": 0.069551,
+      "train_seconds": 34.03949,
+      "seed_costs": [
+       4.9016,
+       4.9234,
+       5.0885,
+       4.9575,
+       4.9241,
+       5.0121,
+       5.208,
+       5.3597,
+       4.901,
+       4.9371
+      ],
+      "sigma_end": 0.078093,
+      "gradient_steps": 32000,
+      "sigma_drop_vs_bound": 0.26561,
+      "baseline_steps_to_reach": 113260.609716,
+      "cost_at": {
+       "49152": 7.153882,
+       "98304": 5.793183,
+       "147456": 5.211056
+      },
+      "approx_kl_max": 0.017827,
+      "rounds_kl_above_0.1": 0,
+      "diff": {
+       "cost": {
+        "d": 0.288407,
+        "lo": 0.159745,
+        "hi": 0.417069,
+        "significant": true
+       },
+       "energy_kwh": {
+        "d": 0.313662,
+        "lo": 0.177994,
+        "hi": 0.449331,
+        "significant": true
+       },
+       "discomfort_kh": {
+        "d": -0.012628,
+        "lo": -0.064188,
+        "hi": 0.038933,
+        "significant": false
+       },
+       "rollback": {
+        "d": 0.034604,
+        "lo": -0.078443,
+        "hi": 0.147651,
+        "significant": false
+       }
+      },
+      "sd_ratio": {
+       "ratio": 1.327129,
+       "p": 0.411885,
+       "significant": false
+      },
+      "predicted_cost": [
+       4.8,
+       5.3
+      ],
+      "verdicts": {
+       "hit": 2,
+       "partial": 0,
+       "miss": 0,
+       "undecided": 2
+      },
+      "predictions": {
+       "cost": {
+        "label": "4.8–5.3",
+        "verdict": "hit"
+       },
+       "energy_kwh": {
+        "label": "higher",
+        "verdict": "hit"
+       }
+      }
+     }
+    ]
+   }
+  ],
+  "verdict_totals": {
+   "hit": 31,
+   "partial": 3,
+   "miss": 5,
+   "undecided": 15,
+   "total": 54
+  },
+  "baseline_seeds": {
+   "first5_mean": 4.70499,
+   "first5_sd": 0.053271,
+   "worst_seed": 5,
+   "worst_cost": 5.03565,
+   "sd_without_worst": 0.04883
+  },
+  "runs_below_thermostat": {
+   "baseline": 0,
+   "epochs_1": 0,
+   "epochs_3": 0,
+   "epochs_30": 2,
+   "clip_0.05": 0,
+   "clip_0.1": 0,
+   "clip_0.3": 0,
+   "clip_0.5": 0,
+   "lambda_0.8": 0,
+   "lambda_0.9": 0,
+   "lambda_0.99": 0,
+   "lambda_1": 0
+  },
+  "n_runs": 120,
+  "rounds": 100
+ },
+ "controllers": [
+  {
+   "key": "off",
+   "label": "HVAC off",
+   "energy_kwh": 0.0,
+   "discomfort_kh": 35.15326,
+   "violation_pct": 82.925,
+   "cost": 70.30652
+  },
+  {
+   "key": "thermostat_8",
+   "label": "Thermostat, on at 8:00",
+   "energy_kwh": 3.615855,
+   "discomfort_kh": 1.994247,
+   "violation_pct": 21.075,
+   "cost": 7.60435
+  },
+  {
+   "key": "thermostat_3",
+   "label": "Thermostat, on at 3:00",
+   "energy_kwh": 4.603978,
+   "discomfort_kh": 0.383459,
+   "violation_pct": 9.975,
+   "cost": 5.370896
+  },
+  {
+   "key": "thermostat_tuned",
+   "label": "Thermostat, tuned",
+   "energy_kwh": 4.243622,
+   "discomfort_kh": 0.116492,
+   "violation_pct": 3.65,
+   "cost": 4.476605
+  },
+  {
+   "key": "oracle",
+   "label": "Oracle (knows the weather)",
+   "energy_kwh": 3.491595,
+   "discomfort_kh": 0.000369,
+   "violation_pct": 0.025,
+   "cost": 3.492333
+  }
+ ],
+ "lambda_by_time": [
+  {
+   "label": "Oracle",
+   "kind": "reference",
+   "energy_before": 0.637618,
+   "energy_occupied": 2.853977,
+   "energy_after": 0.0,
+   "discomfort_first2h": 0.000369,
+   "discomfort_rest": 0.0,
+   "discomfort_cold_days": 0.001117,
+   "discomfort_hot_days": 0.0
+  },
+  {
+   "label": "Thermostat, tuned",
+   "kind": "reference",
+   "energy_before": 1.310287,
+   "energy_occupied": 2.933335,
+   "energy_after": 0.0,
+   "discomfort_first2h": 0.065647,
+   "discomfort_rest": 0.050845,
+   "discomfort_cold_days": 0.173235,
+   "discomfort_hot_days": 0.191369
+  },
+  {
+   "label": "0.8",
+   "kind": "ppo",
+   "value": 0.8,
+   "energy_before": 1.204223,
+   "energy_occupied": 3.068052,
+   "energy_after": 0.164427,
+   "discomfort_first2h": 0.109249,
+   "discomfort_rest": 0.066319,
+   "discomfort_cold_days": 0.367533,
+   "discomfort_hot_days": 0.18573
+  },
+  {
+   "label": "0.9",
+   "kind": "ppo",
+   "value": 0.9,
+   "energy_before": 1.451377,
+   "energy_occupied": 2.860016,
+   "energy_after": 0.141051,
+   "discomfort_first2h": 0.057441,
+   "discomfort_rest": 0.088041,
+   "discomfort_cold_days": 0.233467,
+   "discomfort_hot_days": 0.234639
+  },
+  {
+   "label": "0.95",
+   "kind": "baseline",
+   "value": 0.95,
+   "energy_before": 1.58094,
+   "energy_occupied": 2.835896,
+   "energy_after": 0.153355,
+   "discomfort_first2h": 0.035251,
+   "discomfort_rest": 0.046107,
+   "discomfort_cold_days": 0.163153,
+   "discomfort_hot_days": 0.094086
+  },
+  {
+   "label": "0.99",
+   "kind": "ppo",
+   "value": 0.99,
+   "energy_before": 1.920887,
+   "energy_occupied": 2.642,
+   "energy_after": 0.223398,
+   "discomfort_first2h": 0.02472,
+   "discomfort_rest": 0.033008,
+   "discomfort_cold_days": 0.096954,
+   "discomfort_hot_days": 0.088142
+  },
+  {
+   "label": "1",
+   "kind": "ppo",
+   "value": 1.0,
+   "energy_before": 2.003975,
+   "energy_occupied": 2.629753,
+   "energy_after": 0.250126,
+   "discomfort_first2h": 0.027467,
+   "discomfort_rest": 0.041263,
+   "discomfort_cold_days": 0.082525,
+   "discomfort_hot_days": 0.143091
+  }
+ ]
+}
