@@ -8,7 +8,8 @@ baseline is run.
 
 Usage:  python scripts/run_ablation.py [--workers 10] [--only baseline clip_0.05 ...]
         python scripts/run_ablation.py --list
-Output: runs/ablation/<config>/seed<k>/
+Output: runs/ablation/<config>/seed<k>/   (finished runs are skipped)
+Then:   python scripts/analyze_ablation.py
 """
 
 from __future__ import annotations
@@ -21,7 +22,7 @@ from hvac.train import DEFAULT_PPO, run_many
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "runs" / "ablation"
 
-SEEDS = range(5)
+SEEDS = range(10)  # 5 when the predictions were written; raised to 10 before any non-baseline run
 # 100 PPO updates of 2048 steps. On the baseline this is where the fast part of
 # learning is over (see docs/report/zh/03_ablation.md, section 3.1).
 STEPS = 204_800

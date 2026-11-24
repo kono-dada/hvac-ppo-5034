@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch, Rectangle
 
-from hvac.controllers import OffController, ThermostatController
+from hvac.controllers import OffController, ThermostatController, tuned_thermostat
 from hvac.env import RoomConfig, RoomThermalEnv, discretize
 from hvac.evaluation import eval_seeds, evaluate_controller, mean_metrics, run_episode
 
@@ -64,6 +64,7 @@ def print_controller_numbers(cfg: RoomConfig) -> None:
         ("thermostat from 5:00", ThermostatController(prestart_hours=3)),
         ("thermostat from 3:00", ThermostatController(prestart_hours=5)),
         ("thermostat 24 h", ThermostatController(always_on=True)),
+        ("thermostat, tuned", tuned_thermostat()),
         ("oracle", "oracle"),
     ]
     for name, ctrl in controllers:

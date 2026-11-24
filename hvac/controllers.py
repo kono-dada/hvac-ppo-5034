@@ -65,6 +65,18 @@ class ThermostatController:
         return 0.0
 
 
+# The report's reference thermostat. Chosen by scripts/tune_thermostat.py on 200
+# days that are neither training nor test days. The class defaults above
+# (margin 0.5, gain 2) are the untuned values used in the pre-experiments.
+TUNED_THERMOSTAT = {"prestart_hours": 2.5, "margin": 1.0, "gain": 0.75}
+
+
+def tuned_thermostat() -> ThermostatController:
+    ctrl = ThermostatController(**TUNED_THERMOSTAT)
+    ctrl.name = "thermostat_tuned"
+    return ctrl
+
+
 def solve_oracle(env: RoomThermalEnv) -> np.ndarray:
     """Best possible action sequence for the day currently loaded in `env`.
 
