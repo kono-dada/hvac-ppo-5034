@@ -1,0 +1,61 @@
+{
+  "env": {
+    "dt_seconds": 900.0,
+    "steps_per_episode": 96,
+    "end_of_day": "terminate",
+    "c_air": 1000000.0,
+    "c_mass": 10000000.0,
+    "ua_air_out": 30.0,
+    "ua_air_mass": 400.0,
+    "ua_mass_out": 50.0,
+    "solar_to_air": 0.3,
+    "q_hvac_max": 3000.0,
+    "cop": 3.0,
+    "comfort_low": 21.0,
+    "comfort_high": 24.0,
+    "occupied_start_hour": 8.0,
+    "occupied_end_hour": 18.0,
+    "violation_tolerance": 0.1,
+    "comfort_weight": 2.0,
+    "reward_scale": 1.0,
+    "t_out_mean_range": [
+      -2.0,
+      32.0
+    ],
+    "t_out_amp_range": [
+      3.0,
+      6.0
+    ],
+    "t_out_peak_hour": 15.0,
+    "t_out_noise_rho": 0.95,
+    "t_out_noise_sigma": 0.3,
+    "q_solar_peak": 1000.0,
+    "clearness_range": [
+      0.2,
+      1.0
+    ],
+    "q_internal_occupied": 400.0,
+    "q_internal_idle": 50.0,
+    "init_mass_intercept": 16.3,
+    "init_mass_slope": 0.33,
+    "init_mass_spread": 1.0,
+    "init_air_offset": -0.4,
+    "observe_mass": true
+  },
+  "ppo": {
+    "learning_rate": 0.0003,
+    "n_steps": 256,
+    "batch_size": 64,
+    "n_epochs": 10,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.5,
+    "ent_coef": 0.0,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5
+  },
+  "total_timesteps": 204800,
+  "seed": 6,
+  "n_envs": 8,
+  "normalize_reward": false
+}

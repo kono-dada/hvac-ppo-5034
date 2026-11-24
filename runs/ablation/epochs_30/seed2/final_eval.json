@@ -1,0 +1,811 @@
+{
+  "mean": {
+    "return": -4.481167918553531,
+    "energy_kwh": 4.180183426821604,
+    "discomfort_kh": 0.1504922458659631,
+    "violation_pct": 6.1,
+    "train_seconds": 82.66954016685486
+  },
+  "per_day": [
+    {
+      "t_out_mean": 2.2817813613014666,
+      "return": -7.792858334323318,
+      "energy_kwh": 6.9382381504401565,
+      "discomfort_kh": 0.42731009194158087,
+      "violation_pct": 22.5,
+      "seed": 100000
+    },
+    {
+      "t_out_mean": 26.9629083068756,
+      "return": -4.365316823124886,
+      "energy_kwh": 4.365316823124886,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100001
+    },
+    {
+      "t_out_mean": 30.09792000676743,
+      "return": -7.247481684104621,
+      "energy_kwh": 6.853745810687542,
+      "discomfort_kh": 0.1968679367085393,
+      "violation_pct": 10.0,
+      "seed": 100002
+    },
+    {
+      "t_out_mean": -1.2230447159713567,
+      "return": -8.686305561019124,
+      "energy_kwh": 8.674268897622824,
+      "discomfort_kh": 0.006018331698149915,
+      "violation_pct": 0.0,
+      "seed": 100003
+    },
+    {
+      "t_out_mean": -1.313435719208513,
+      "return": -15.17838868617707,
+      "energy_kwh": 10.452245653606951,
+      "discomfort_kh": 2.3630715162850597,
+      "violation_pct": 100.0,
+      "seed": 100004
+    },
+    {
+      "t_out_mean": 15.095567268378632,
+      "return": -0.8921955401533879,
+      "energy_kwh": 0.859158887527883,
+      "discomfort_kh": 0.016518326312752407,
+      "violation_pct": 0.0,
+      "seed": 100005
+    },
+    {
+      "t_out_mean": 19.472568578578297,
+      "return": -1.008901990018785,
+      "energy_kwh": 1.008901990018785,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100006
+    },
+    {
+      "t_out_mean": 6.0273329314753905,
+      "return": -5.886671614160097,
+      "energy_kwh": 5.415294121950865,
+      "discomfort_kh": 0.235688746104616,
+      "violation_pct": 12.5,
+      "seed": 100007
+    },
+    {
+      "t_out_mean": 31.162563980946086,
+      "return": -7.534582531965119,
+      "energy_kwh": 7.23572629224509,
+      "discomfort_kh": 0.1494281198600147,
+      "violation_pct": 5.0,
+      "seed": 100008
+    },
+    {
+      "t_out_mean": 14.399892695699249,
+      "return": -0.8511574557051063,
+      "energy_kwh": 0.8511574557051063,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100009
+    },
+    {
+      "t_out_mean": 31.159026592366285,
+      "return": -9.34066955391117,
+      "energy_kwh": 8.501061130315065,
+      "discomfort_kh": 0.41980421179805205,
+      "violation_pct": 15.0,
+      "seed": 100010
+    },
+    {
+      "t_out_mean": 1.5312752585354397,
+      "return": -8.526827721779547,
+      "energy_kwh": 8.043120015412569,
+      "discomfort_kh": 0.24185385318348906,
+      "violation_pct": 5.0,
+      "seed": 100011
+    },
+    {
+      "t_out_mean": 6.554883420762628,
+      "return": -5.148296659913379,
+      "energy_kwh": 4.962196649052203,
+      "discomfort_kh": 0.09305000543058828,
+      "violation_pct": 0.0,
+      "seed": 100012
+    },
+    {
+      "t_out_mean": 30.20544943457311,
+      "return": -6.8219946129333735,
+      "energy_kwh": 6.514215095899999,
+      "discomfort_kh": 0.15388975851668718,
+      "violation_pct": 0.0,
+      "seed": 100013
+    },
+    {
+      "t_out_mean": 14.941428488662751,
+      "return": -1.0514036483690017,
+      "energy_kwh": 0.9906668066978455,
+      "discomfort_kh": 0.030368420835578114,
+      "violation_pct": 2.5,
+      "seed": 100014
+    },
+    {
+      "t_out_mean": 10.504522289060978,
+      "return": -2.2682494101214044,
+      "energy_kwh": 2.202220472507179,
+      "discomfort_kh": 0.033014468807112785,
+      "violation_pct": 2.5,
+      "seed": 100015
+    },
+    {
+      "t_out_mean": 16.8666651724564,
+      "return": -0.7563865643959602,
+      "energy_kwh": 0.7074887342751026,
+      "discomfort_kh": 0.02444891506042879,
+      "violation_pct": 0.0,
+      "seed": 100016
+    },
+    {
+      "t_out_mean": 18.39137762824695,
+      "return": -1.7601602319628,
+      "energy_kwh": 1.7601602319628,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100017
+    },
+    {
+      "t_out_mean": 4.121952141968872,
+      "return": -7.869639907309326,
+      "energy_kwh": 6.561620842665434,
+      "discomfort_kh": 0.6540095323219459,
+      "violation_pct": 35.0,
+      "seed": 100018
+    },
+    {
+      "t_out_mean": 8.349395998920297,
+      "return": -3.878006572542544,
+      "energy_kwh": 3.730035223066807,
+      "discomfort_kh": 0.07398567473786866,
+      "violation_pct": 2.5,
+      "seed": 100019
+    },
+    {
+      "t_out_mean": 12.430283814083255,
+      "return": -2.260608515452704,
+      "energy_kwh": 1.658008704893291,
+      "discomfort_kh": 0.3012999052797065,
+      "violation_pct": 5.0,
+      "seed": 100020
+    },
+    {
+      "t_out_mean": 23.62285211163035,
+      "return": -2.9948190096765757,
+      "energy_kwh": 2.9948190096765757,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100021
+    },
+    {
+      "t_out_mean": 10.096819885369559,
+      "return": -3.358110224828124,
+      "energy_kwh": 3.358110224828124,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100022
+    },
+    {
+      "t_out_mean": 1.2702468019760849,
+      "return": -7.76021535172686,
+      "energy_kwh": 7.323211566545069,
+      "discomfort_kh": 0.21850189259089525,
+      "violation_pct": 5.0,
+      "seed": 100023
+    },
+    {
+      "t_out_mean": 9.293673788800755,
+      "return": -2.7537132724561495,
+      "energy_kwh": 2.736259645782411,
+      "discomfort_kh": 0.0087268133368692,
+      "violation_pct": 0.0,
+      "seed": 100024
+    },
+    {
+      "t_out_mean": 4.611424878374358,
+      "return": -5.088507100939751,
+      "energy_kwh": 5.088507100939751,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100025
+    },
+    {
+      "t_out_mean": 11.18780143577774,
+      "return": -1.6701647322624922,
+      "energy_kwh": 1.6701647322624922,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100026
+    },
+    {
+      "t_out_mean": 10.624781538503,
+      "return": -4.088446865421375,
+      "energy_kwh": 2.8414055788889527,
+      "discomfort_kh": 0.623520643266211,
+      "violation_pct": 27.5,
+      "seed": 100027
+    },
+    {
+      "t_out_mean": 12.388975164076145,
+      "return": -1.0474200788885355,
+      "energy_kwh": 1.0474200788885355,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100028
+    },
+    {
+      "t_out_mean": 0.7920293706749326,
+      "return": -7.549812095585672,
+      "energy_kwh": 7.515885313972831,
+      "discomfort_kh": 0.01696339080642062,
+      "violation_pct": 0.0,
+      "seed": 100029
+    },
+    {
+      "t_out_mean": 0.40050959631194294,
+      "return": -9.229609244452838,
+      "energy_kwh": 8.56015473138541,
+      "discomfort_kh": 0.33472725653371427,
+      "violation_pct": 5.0,
+      "seed": 100030
+    },
+    {
+      "t_out_mean": 25.08509470220317,
+      "return": -3.741688795387745,
+      "energy_kwh": 3.741688795387745,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100031
+    },
+    {
+      "t_out_mean": 4.345027765535824,
+      "return": -5.182041473686695,
+      "energy_kwh": 5.182041473686695,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100032
+    },
+    {
+      "t_out_mean": 3.082055916457802,
+      "return": -5.864973702467978,
+      "energy_kwh": 5.864973702467978,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100033
+    },
+    {
+      "t_out_mean": 25.636311572647042,
+      "return": -4.779736328870058,
+      "energy_kwh": 4.779736328870058,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100034
+    },
+    {
+      "t_out_mean": -0.8195437426097487,
+      "return": -8.93954976554982,
+      "energy_kwh": 8.798847562633455,
+      "discomfort_kh": 0.0703511014581828,
+      "violation_pct": 2.5,
+      "seed": 100035
+    },
+    {
+      "t_out_mean": 23.36729082529801,
+      "return": -2.4710976323112845,
+      "energy_kwh": 2.4710976323112845,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100036
+    },
+    {
+      "t_out_mean": 13.25481282217929,
+      "return": -1.0485905802451363,
+      "energy_kwh": 1.0129611687734723,
+      "discomfort_kh": 0.017814705735831993,
+      "violation_pct": 0.0,
+      "seed": 100037
+    },
+    {
+      "t_out_mean": -0.11198041185756225,
+      "return": -8.970144677241727,
+      "energy_kwh": 8.6261031832546,
+      "discomfort_kh": 0.17202074699356373,
+      "violation_pct": 2.5,
+      "seed": 100038
+    },
+    {
+      "t_out_mean": 2.799748447898265,
+      "return": -8.393767295707065,
+      "energy_kwh": 7.654043945483863,
+      "discomfort_kh": 0.3698616751116006,
+      "violation_pct": 22.5,
+      "seed": 100039
+    },
+    {
+      "t_out_mean": 1.3858570724111123,
+      "return": -10.467151710648714,
+      "energy_kwh": 8.799436347559094,
+      "discomfort_kh": 0.83385768154481,
+      "violation_pct": 37.5,
+      "seed": 100040
+    },
+    {
+      "t_out_mean": 26.07351986708761,
+      "return": -4.6434772331267595,
+      "energy_kwh": 4.6434772331267595,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100041
+    },
+    {
+      "t_out_mean": 11.317516243412518,
+      "return": -2.8460943498261297,
+      "energy_kwh": 2.376651014201343,
+      "discomfort_kh": 0.23472166781239334,
+      "violation_pct": 2.5,
+      "seed": 100042
+    },
+    {
+      "t_out_mean": 31.56306024173492,
+      "return": -7.323985859155259,
+      "energy_kwh": 6.998795399442315,
+      "discomfort_kh": 0.16259522985647212,
+      "violation_pct": 0.0,
+      "seed": 100043
+    },
+    {
+      "t_out_mean": 14.981291988433298,
+      "return": -0.31132076494395733,
+      "energy_kwh": 0.31132076494395733,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100044
+    },
+    {
+      "t_out_mean": 19.321375661796697,
+      "return": -1.4053084459155798,
+      "energy_kwh": 1.4053084459155798,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100045
+    },
+    {
+      "t_out_mean": 31.54219851735635,
+      "return": -6.61417486971588,
+      "energy_kwh": 6.570254288613796,
+      "discomfort_kh": 0.021960290551041872,
+      "violation_pct": 0.0,
+      "seed": 100046
+    },
+    {
+      "t_out_mean": 0.5621265417236043,
+      "return": -9.07489909628736,
+      "energy_kwh": 8.030971245840192,
+      "discomfort_kh": 0.5219639252235844,
+      "violation_pct": 22.5,
+      "seed": 100047
+    },
+    {
+      "t_out_mean": 3.405836343468673,
+      "return": -6.494918255363551,
+      "energy_kwh": 6.472674619406462,
+      "discomfort_kh": 0.011121817978544613,
+      "violation_pct": 0.0,
+      "seed": 100048
+    },
+    {
+      "t_out_mean": 24.952816701382588,
+      "return": -4.693683547899127,
+      "energy_kwh": 4.693683547899127,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100049
+    },
+    {
+      "t_out_mean": 24.194867621500276,
+      "return": -3.1343526476994157,
+      "energy_kwh": 3.1343526476994157,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100050
+    },
+    {
+      "t_out_mean": 0.3738940525618972,
+      "return": -9.584066226626149,
+      "energy_kwh": 8.269445868209004,
+      "discomfort_kh": 0.6573101792085723,
+      "violation_pct": 37.5,
+      "seed": 100051
+    },
+    {
+      "t_out_mean": 16.01571273210188,
+      "return": -0.6634588781744242,
+      "energy_kwh": 0.6634588781744242,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100052
+    },
+    {
+      "t_out_mean": 11.953952123811561,
+      "return": -1.1304923202842474,
+      "energy_kwh": 1.1304923202842474,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100053
+    },
+    {
+      "t_out_mean": 14.823835827882148,
+      "return": -0.9337991847330986,
+      "energy_kwh": 0.9229527357965708,
+      "discomfort_kh": 0.005423224468263932,
+      "violation_pct": 0.0,
+      "seed": 100054
+    },
+    {
+      "t_out_mean": 9.475222304171798,
+      "return": -5.3491278282502215,
+      "energy_kwh": 3.6151970913633704,
+      "discomfort_kh": 0.8669653684434255,
+      "violation_pct": 42.5,
+      "seed": 100055
+    },
+    {
+      "t_out_mean": 4.168682123818486,
+      "return": -5.524670543149114,
+      "energy_kwh": 5.524670543149114,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100056
+    },
+    {
+      "t_out_mean": 26.588953681350723,
+      "return": -4.670873933471739,
+      "energy_kwh": 4.670873933471739,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100057
+    },
+    {
+      "t_out_mean": 25.017376191921322,
+      "return": -3.9645772203803062,
+      "energy_kwh": 3.9645772203803062,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100058
+    },
+    {
+      "t_out_mean": 28.715038911524427,
+      "return": -5.534285587258637,
+      "energy_kwh": 5.534285587258637,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100059
+    },
+    {
+      "t_out_mean": 24.955276704192674,
+      "return": -4.018327812664211,
+      "energy_kwh": 4.018327812664211,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100060
+    },
+    {
+      "t_out_mean": 13.333322764196172,
+      "return": -1.6894187743736548,
+      "energy_kwh": 1.4155622804537416,
+      "discomfort_kh": 0.13692824695995665,
+      "violation_pct": 5.0,
+      "seed": 100061
+    },
+    {
+      "t_out_mean": 20.4486345634154,
+      "return": -1.270808719098568,
+      "energy_kwh": 1.270808719098568,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100062
+    },
+    {
+      "t_out_mean": 30.375294311248098,
+      "return": -6.741891071618211,
+      "energy_kwh": 6.5857673259451985,
+      "discomfort_kh": 0.07806187283650612,
+      "violation_pct": 0.0,
+      "seed": 100063
+    },
+    {
+      "t_out_mean": 24.41257206058232,
+      "return": -2.9573707478120923,
+      "energy_kwh": 2.9573707478120923,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100064
+    },
+    {
+      "t_out_mean": 22.79520236958343,
+      "return": -3.531527736224234,
+      "energy_kwh": 3.531527736224234,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100065
+    },
+    {
+      "t_out_mean": 5.633918459584375,
+      "return": -5.138434591175773,
+      "energy_kwh": 5.1178472470492125,
+      "discomfort_kh": 0.010293672063280468,
+      "violation_pct": 0.0,
+      "seed": 100066
+    },
+    {
+      "t_out_mean": 16.872683421381435,
+      "return": -0.9509583681205491,
+      "energy_kwh": 0.9462218889966607,
+      "discomfort_kh": 0.0023682395619442076,
+      "violation_pct": 0.0,
+      "seed": 100067
+    },
+    {
+      "t_out_mean": 25.736052861610368,
+      "return": -4.347577809356153,
+      "energy_kwh": 4.347577809356153,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100068
+    },
+    {
+      "t_out_mean": 27.298767801614698,
+      "return": -4.578928669914603,
+      "energy_kwh": 4.578928669914603,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100069
+    },
+    {
+      "t_out_mean": 19.36663930109473,
+      "return": -1.1776373758912086,
+      "energy_kwh": 1.1776373758912086,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100070
+    },
+    {
+      "t_out_mean": 13.196225206914988,
+      "return": -0.8956932220607996,
+      "energy_kwh": 0.8956932220607996,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100071
+    },
+    {
+      "t_out_mean": 13.205452333944326,
+      "return": -1.597664963454008,
+      "energy_kwh": 1.597664963454008,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100072
+    },
+    {
+      "t_out_mean": 9.801528067926174,
+      "return": -2.134072366170585,
+      "energy_kwh": 2.134072366170585,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100073
+    },
+    {
+      "t_out_mean": 11.867785714422768,
+      "return": -3.709433367712503,
+      "energy_kwh": 2.591252879239619,
+      "discomfort_kh": 0.559090244236442,
+      "violation_pct": 30.0,
+      "seed": 100074
+    },
+    {
+      "t_out_mean": 14.992739688668141,
+      "return": -0.7504600705578923,
+      "energy_kwh": 0.7504600705578923,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100075
+    },
+    {
+      "t_out_mean": 30.14292961304863,
+      "return": -6.998743975888001,
+      "energy_kwh": 6.719101306982338,
+      "discomfort_kh": 0.13982133445283118,
+      "violation_pct": 0.0,
+      "seed": 100076
+    },
+    {
+      "t_out_mean": 24.861204684458787,
+      "return": -4.057407736778259,
+      "energy_kwh": 4.057407736778259,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100077
+    },
+    {
+      "t_out_mean": 17.605512687025122,
+      "return": -0.46855611726641655,
+      "energy_kwh": 0.46855611726641655,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100078
+    },
+    {
+      "t_out_mean": 16.191072852680417,
+      "return": -0.4902404313907027,
+      "energy_kwh": 0.4902404313907027,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100079
+    },
+    {
+      "t_out_mean": 2.702838348743168,
+      "return": -8.72198838374752,
+      "energy_kwh": 7.236217423342168,
+      "discomfort_kh": 0.7428854802026761,
+      "violation_pct": 37.5,
+      "seed": 100080
+    },
+    {
+      "t_out_mean": 12.18643635898806,
+      "return": -2.9514228341900175,
+      "energy_kwh": 1.814604477956891,
+      "discomfort_kh": 0.5684091781165632,
+      "violation_pct": 27.5,
+      "seed": 100081
+    },
+    {
+      "t_out_mean": 0.9365498704768538,
+      "return": -8.701771567290963,
+      "energy_kwh": 8.287116574123502,
+      "discomfort_kh": 0.20732749658373084,
+      "violation_pct": 2.5,
+      "seed": 100082
+    },
+    {
+      "t_out_mean": 10.555234054519262,
+      "return": -3.3594355332796617,
+      "energy_kwh": 2.8298952179029584,
+      "discomfort_kh": 0.26477015768835166,
+      "violation_pct": 5.0,
+      "seed": 100083
+    },
+    {
+      "t_out_mean": 20.133249443190245,
+      "return": -1.8855692278593779,
+      "energy_kwh": 1.8855692278593779,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100084
+    },
+    {
+      "t_out_mean": 2.529520207289747,
+      "return": -6.531874682754278,
+      "energy_kwh": 6.531874682754278,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100085
+    },
+    {
+      "t_out_mean": 18.931748917696726,
+      "return": -1.2241897257044911,
+      "energy_kwh": 1.2241897257044911,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100086
+    },
+    {
+      "t_out_mean": 22.089139609146354,
+      "return": -2.9407421238720417,
+      "energy_kwh": 2.9407421238720417,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100087
+    },
+    {
+      "t_out_mean": 9.997064542414465,
+      "return": -3.705740706055563,
+      "energy_kwh": 2.7043164195492864,
+      "discomfort_kh": 0.5007121432531383,
+      "violation_pct": 27.5,
+      "seed": 100088
+    },
+    {
+      "t_out_mean": 3.5343775036855973,
+      "return": -7.84040759551436,
+      "energy_kwh": 6.995773467235267,
+      "discomfort_kh": 0.4223170641395466,
+      "violation_pct": 27.5,
+      "seed": 100089
+    },
+    {
+      "t_out_mean": 1.6833437107342786,
+      "return": -6.965943947434425,
+      "energy_kwh": 6.965943947434425,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100090
+    },
+    {
+      "t_out_mean": 29.206360608600438,
+      "return": -7.230955790430571,
+      "energy_kwh": 6.882281967438757,
+      "discomfort_kh": 0.17433691149590658,
+      "violation_pct": 5.0,
+      "seed": 100091
+    },
+    {
+      "t_out_mean": 3.6239934769729647,
+      "return": -7.070225449790261,
+      "energy_kwh": 6.266941921785474,
+      "discomfort_kh": 0.4016417640023935,
+      "violation_pct": 15.0,
+      "seed": 100092
+    },
+    {
+      "t_out_mean": 15.668190837639212,
+      "return": -0.7758892700076103,
+      "energy_kwh": 0.7758892700076103,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100093
+    },
+    {
+      "t_out_mean": 22.177716148226935,
+      "return": -1.682270954363048,
+      "energy_kwh": 1.682270954363048,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100094
+    },
+    {
+      "t_out_mean": 27.264819632682027,
+      "return": -5.524731241187498,
+      "energy_kwh": 5.378591471351683,
+      "discomfort_kh": 0.07306988491790722,
+      "violation_pct": 0.0,
+      "seed": 100095
+    },
+    {
+      "t_out_mean": 26.03524015320445,
+      "return": -5.868854857983125,
+      "energy_kwh": 5.690518707968295,
+      "discomfort_kh": 0.0891680750074153,
+      "violation_pct": 0.0,
+      "seed": 100096
+    },
+    {
+      "t_out_mean": 12.925924594568727,
+      "return": -1.4586660927161574,
+      "energy_kwh": 1.4586660927161574,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100097
+    },
+    {
+      "t_out_mean": 27.964140939665366,
+      "return": -5.349468633532524,
+      "energy_kwh": 5.349468633532524,
+      "discomfort_kh": 0.0,
+      "violation_pct": 0.0,
+      "seed": 100098
+    },
+    {
+      "t_out_mean": 10.942818167068179,
+      "return": -2.3982589600528605,
+      "energy_kwh": 2.1802841695025563,
+      "discomfort_kh": 0.10898739527515211,
+      "violation_pct": 2.5,
+      "seed": 100099
+    }
+  ]
+}
