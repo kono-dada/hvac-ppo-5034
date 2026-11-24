@@ -1,0 +1,16 @@
+[project]
+name = "hvac-ppo"
+version = "0.1.0"
+description = "AIAA5024 final project: building HVAC control with PPO"
+requires-python = ">=3.10"
+dependencies = [
+    "gymnasium",
+    "stable-baselines3>=2.3",
+    "scipy",
+    "matplotlib",
+    "pandas",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
