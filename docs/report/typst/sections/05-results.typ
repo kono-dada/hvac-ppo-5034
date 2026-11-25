@@ -191,7 +191,7 @@ Compared with the literature, 0.1 to 0.3 are equivalent here, and "both ends are
 
 #wide-figure(
   from-module(tradeoff.render),
-  caption: [Energy against discomfort. The black line is the path of the baseline configuration during training; the markers show where each setting ends up (mean of 10 seeds, with 95% confidence intervals in panel b). Dotted lines connect points of equal cost.],
+  caption: [Energy against discomfort. The black line is the path of the baseline configuration during training, from 16k steps (hollow circle; earlier points lie far off the scale) to its end at 205k steps (large dot); arrows point in the direction of training. The markers show where each setting ends up (mean of 10 seeds, with 95% confidence intervals); panel a shows only the one setting outside panel b. Dotted lines connect points of equal cost.],
   label: <fig-tradeoff>,
 )
 
