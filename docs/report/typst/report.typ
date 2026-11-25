@@ -10,12 +10,13 @@
 //   figures/        figure modules (each exports `render`), maintained separately
 //   refs.bib        references
 
-#import "template.typ": report, todo
+#import "template.typ": report
 
 // ---------------------------------------------------------------- title page: edit here
-#let course = [AIAA 5024]
+#let course = [AIAA 5034]
 #let authors = (
-  todo[Author name · student ID],
+  [Fangda Chen (50040218)],
+  [Liang Zhang (50040696)],
 )
 #let date = [November 2026]
 

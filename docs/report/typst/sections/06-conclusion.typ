@@ -11,9 +11,9 @@ No setting is better than the baseline in both energy and discomfort.
 _Training stability_ is governed by the clip range: 0.5 is the only setting that became unstable, and 0.05 and 0.1 are smoother than the baseline but slower.
 
 #para[Why predictions failed.]
-Both major errors come from reading too much into the log of a single configuration.
-A low clip fraction does not show that clipping is inactive.
-And "progress is set by the number of gradient steps" holds only where gradient steps are scarce.
+Both qualitative errors come from reading too much into the training log of the baseline.
+A low clip fraction does not show that clipping is inactive: the few clipped samples carry a large share of the gradient.
+And "the value network relays the delayed benefit" was true only in part, so $lambda$ changes how much the agent pre-heats even where the cost stays the same.
 In both cases the ablation itself was needed to see it, which is perhaps the best argument for running one.
 Writing the predictions down first made these errors visible; without them, each result would have looked plausible in hindsight.
 
@@ -26,4 +26,4 @@ The study uses one simplified room with hand-set parameters and synthetic weathe
 The budget of #ksteps(data.total_steps) steps ends before convergence, so we compare learning speed rather than final performance.
 Settings were varied one at a time, so interactions (for instance between the clip range and the number of epochs) are not covered.
 With 10 seeds and no correction for multiple comparisons, borderline results are weak evidence.
-Our explanation of why a large $lambda$ leads to too much pre-heating is untested, and we did not examine why so few clipped samples carry so much weight.
+Our explanation of why a large $lambda$ leads to too much pre-heating is untested, and the gradient diagnostics of the clip range were designed after the results were known and use three seeds.

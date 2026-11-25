@@ -1,7 +1,7 @@
 [project]
 name = "hvac-ppo"
 version = "0.1.0"
-description = "AIAA5024 final project: building HVAC control with PPO"
+description = "AIAA5034 final project: building HVAC control with PPO"
 requires-python = ">=3.10"
 dependencies = [
     "gymnasium",

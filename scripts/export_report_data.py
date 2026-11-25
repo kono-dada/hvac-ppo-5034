@@ -7,6 +7,7 @@ saved policies on the fixed test days; it trains nothing and changes no result f
 Sources
     docs/report/data/ablation_summary.csv    per-configuration means (scripts/analyze_ablation.py)
     docs/report/data/ablation_verdicts.csv   the 54 pre-registered predictions and their verdicts
+    docs/report/data/clip_diagnostics_summary.csv, clip_gradient_probe.csv   post-hoc diagnostics
     runs/ablation/<config>/seed<k>/          per-seed results, learning curves, SB3 logs, saved policies
     hvac.controllers                         reference controllers, re-evaluated on the 100 test days
 
@@ -278,6 +279,31 @@ def lambda_by_time_of_day(runs: dict[str, list[dict]]) -> list[dict]:
     return rows
 
 
+# ---------------------------------------------------------------- post-hoc gradient diagnostics
+def diagnostics() -> dict:
+    """Late-training (rounds 71-100) averages of the post-hoc clip-range diagnostics, 3 seeds.
+
+    Sources: docs/report/data/clip_diagnostics_summary.csv (scripts/analyze_clip_diagnostics.py)
+    and docs/report/data/clip_gradient_probe.csv (scripts/analyze_clip_gradient_probe.py).
+    """
+    summary = pd.read_csv(DATA / "clip_diagnostics_summary.csv")
+    late = summary[summary.iloc[:, 1].str.contains("71")]  # the column holds the phase label
+    assert len(late) == 5, late
+    keys = ("sigma", "clip_fraction", "zeroed_frac", "z_norm_share", "cos_c_u", "grad_clipped",
+            "grad_scale", "kl_end", "kl_mean_share", "mu_shift_abs")  # fmt: skip
+    per_clip = {f"{c:g}": {k: float(row[k]) for k in keys} for c, row in late.set_index("clip").iterrows()}
+    for row in per_clip.values():
+        row["angle_deg"] = float(np.degrees(np.arccos(row["cos_c_u"])))
+    probe = pd.read_csv(DATA / "clip_gradient_probe.csv").set_index("seed").loc["pooled"]
+    pull = {k: float(probe[k]) for k in (
+        "extra_samples_frac", "extra_gradient_norm_share", "gradient_angle_deg",
+        "restore_cos_02", "restore_cos_05", "restore_dot_clipped_02", "restore_dot_clipped_05",
+        "adam_param_step_02", "adam_param_step_05", "distance_delta_02", "distance_delta_05",
+    )}  # fmt: skip
+    pull["restore_drop"] = 1 - pull["restore_dot_clipped_05"] / pull["restore_dot_clipped_02"]
+    return {"late": per_clip, "probe": pull}
+
+
 def clean(obj):
     """Round floats and replace NaN (not valid JSON) by None."""
     if isinstance(obj, dict):
@@ -298,6 +324,7 @@ if __name__ == "__main__":
         "ablation": ablation(runs, spec),
         "controllers": controllers(),
         "lambda_by_time": lambda_by_time_of_day(runs),
+        "diagnostics": diagnostics(),
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(clean(data), indent=1, ensure_ascii=False) + "\n")
@@ -332,3 +359,8 @@ if __name__ == "__main__":
         print(f"  {row['label']:>18s} {row['energy_before']:.2f} {row['energy_occupied']:.2f} {row['energy_after']:.2f} | "
               f"{row['discomfort_first2h']:.3f} {row['discomfort_rest']:.3f} | "
               f"{row['discomfort_cold_days']:.3f} {row['discomfort_hot_days']:.3f}")
+    print("  diagnostics, rounds 71-100: clip | zeroed | |g_z|/|g_u| | angle | grad-norm clipped | KL end | mean share")
+    for c, r in data["diagnostics"]["late"].items():
+        print(f"  {c:>5s} | {r['zeroed_frac']:.3f} | {r['z_norm_share']:.2f} | {r['angle_deg']:.1f} | "
+              f"{r['grad_clipped']:.4f} | {r['kl_end']:.4f} | {r['kl_mean_share']:.3f}")
+    print("  gradient probe (clip 0.5 runs):", {k: round(v, 6) for k, v in data["diagnostics"]["probe"].items()})

@@ -1222,5 +1222,88 @@
    "discomfort_cold_days": 0.082525,
    "discomfort_hot_days": 0.143091
   }
- ]
+ ],
+ "diagnostics": {
+  "late": {
+   "0.05": {
+    "sigma": 0.15728,
+    "clip_fraction": 0.203217,
+    "zeroed_frac": 0.113072,
+    "z_norm_share": 0.793771,
+    "cos_c_u": 0.660279,
+    "grad_clipped": 0.999583,
+    "grad_scale": 0.219773,
+    "kl_end": 0.001716,
+    "kl_mean_share": 0.754462,
+    "mu_shift_abs": 0.007469,
+    "angle_deg": 48.678869
+   },
+   "0.1": {
+    "sigma": 0.091667,
+    "clip_fraction": 0.166117,
+    "zeroed_frac": 0.089059,
+    "z_norm_share": 0.681681,
+    "cos_c_u": 0.725915,
+    "grad_clipped": 1.0,
+    "grad_scale": 0.131689,
+    "kl_end": 0.00425,
+    "kl_mean_share": 0.919122,
+    "mu_shift_abs": 0.007701,
+    "angle_deg": 43.454961
+   },
+   "0.2": {
+    "sigma": 0.068418,
+    "clip_fraction": 0.131784,
+    "zeroed_frac": 0.070478,
+    "z_norm_share": 0.594952,
+    "cos_c_u": 0.767259,
+    "grad_clipped": 1.0,
+    "grad_scale": 0.098339,
+    "kl_end": 0.012342,
+    "kl_mean_share": 0.969629,
+    "mu_shift_abs": 0.010029,
+    "angle_deg": 39.891617
+   },
+   "0.3": {
+    "sigma": 0.060185,
+    "clip_fraction": 0.111152,
+    "zeroed_frac": 0.059887,
+    "z_norm_share": 0.530072,
+    "cos_c_u": 0.797134,
+    "grad_clipped": 1.0,
+    "grad_scale": 0.086081,
+    "kl_end": 0.024752,
+    "kl_mean_share": 0.985008,
+    "mu_shift_abs": 0.012605,
+    "angle_deg": 37.142747
+   },
+   "0.5": {
+    "sigma": 0.054283,
+    "clip_fraction": 0.109234,
+    "zeroed_frac": 0.060904,
+    "z_norm_share": 0.466917,
+    "cos_c_u": 0.823005,
+    "grad_clipped": 1.0,
+    "grad_scale": 0.079548,
+    "kl_end": 0.144985,
+    "kl_mean_share": 0.99694,
+    "mu_shift_abs": 0.023954,
+    "angle_deg": 34.613237
+   }
+  },
+  "probe": {
+   "extra_samples_frac": 0.129661,
+   "extra_gradient_norm_share": 0.645745,
+   "gradient_angle_deg": 38.708668,
+   "restore_cos_02": 0.529166,
+   "restore_cos_05": 0.220596,
+   "restore_dot_clipped_02": 0.00986,
+   "restore_dot_clipped_05": 0.004477,
+   "adam_param_step_02": 0.004005,
+   "adam_param_step_05": 0.004034,
+   "distance_delta_02": -5e-06,
+   "distance_delta_05": 0.0,
+   "restore_drop": 0.545964
+  }
+ }
 }

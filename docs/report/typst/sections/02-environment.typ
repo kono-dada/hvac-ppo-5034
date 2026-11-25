@@ -80,6 +80,7 @@ It is a lower bound on the cost, not a fair competitor.
 The _tuned thermostat_ starts at 5:30, aims for 22 to 23 °C, and has its three parameters chosen from 378 combinations on 200 separate days.
 It is the bar a learned controller should clear.
 @fig-controllers shows why starting early matters: on a cold day a thermostat that switches on at 8:00 reaches the comfort band only at 10:30, whereas the oracle starts heating at 5:15 and then holds the air exactly on the lower edge of the band.
+Starting at 3:00 instead cuts the discomfort from #num(ctrl("thermostat_8").discomfort_kh) to #num(ctrl("thermostat_3").discomfort_kh) K·h but costs #num(ctrl("thermostat_3").energy_kwh - ctrl("thermostat_8").energy_kwh, digits: 1) kWh more energy; the tuned thermostat is better than both.
 
 == Why this is hard for PPO <sec-challenges>
 
