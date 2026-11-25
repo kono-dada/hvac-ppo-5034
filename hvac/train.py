@@ -51,13 +51,19 @@ def train_ppo(
     n_curve_days: int = 30,
     n_final_days: int = 100,
     normalize_reward: bool = False,
+    diagnostics: bool = False,
 ) -> dict[str, float]:
+    """`diagnostics=True` trains with hvac.diagnostics.DiagnosticPPO, which follows exactly
+    the same trajectory but also writes diag_epochs.csv and diag_rounds.csv."""
     import torch
     from stable_baselines3 import PPO
     from stable_baselines3.common.callbacks import BaseCallback
     from stable_baselines3.common.env_util import make_vec_env
     from stable_baselines3.common.logger import configure
     from stable_baselines3.common.vec_env import VecNormalize
+
+    if diagnostics:
+        from hvac.diagnostics import DiagnosticPPO as PPO  # noqa: N814
 
     torch.set_num_threads(1)  # runs are parallelised across processes instead
     run_dir = Path(run_dir)
@@ -130,6 +136,8 @@ def train_ppo(
     final["train_seconds"] = elapsed
     (run_dir / "final_eval.json").write_text(json.dumps({"mean": final, "per_day": final_rows}, indent=2))
     model.save(run_dir / "model")
+    if diagnostics:
+        model.save_diagnostics(run_dir)
     vec_env.close()
     return final
 

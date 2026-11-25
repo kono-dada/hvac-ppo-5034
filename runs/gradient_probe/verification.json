@@ -1,0 +1,38 @@
+{
+  "all_passed": true,
+  "runs": [
+    {
+      "seed": 0,
+      "progress": true,
+      "curve": true,
+      "final_per_day": true,
+      "final_mean": true,
+      "policy_and_adam": true,
+      "epochs": true,
+      "adam_probes": true,
+      "passed": true
+    },
+    {
+      "seed": 1,
+      "progress": true,
+      "curve": true,
+      "final_per_day": true,
+      "final_mean": true,
+      "policy_and_adam": true,
+      "epochs": true,
+      "adam_probes": true,
+      "passed": true
+    },
+    {
+      "seed": 2,
+      "progress": true,
+      "curve": true,
+      "final_per_day": true,
+      "final_mean": true,
+      "policy_and_adam": true,
+      "epochs": true,
+      "adam_probes": true,
+      "passed": true
+    }
+  ]
+}

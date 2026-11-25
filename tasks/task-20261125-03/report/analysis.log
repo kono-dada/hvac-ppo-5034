@@ -1,0 +1,199 @@
+REPRODUCTION: rerun with diagnostics vs the original ablation run
+  clip_0.05  seed0: complete True, progress_except_wall_clock True, eval_curve True, final_per_day True, final_mean_except_wall_clock True, spec True, policy_and_adam True, diagnostic_integrity True, recomputed_approx_kl True, recording_schema boundary-aware, passed True
+  clip_0.05  seed1: complete True, progress_except_wall_clock True, eval_curve True, final_per_day True, final_mean_except_wall_clock True, spec True, policy_and_adam True, diagnostic_integrity True, recomputed_approx_kl True, recording_schema legacy-validated, passed True
+  clip_0.05  seed2: complete True, progress_except_wall_clock True, eval_curve True, final_per_day True, final_mean_except_wall_clock True, spec True, policy_and_adam True, diagnostic_integrity True, recomputed_approx_kl True, recording_schema legacy-validated, passed True
+  clip_0.1   seed0: complete True, progress_except_wall_clock True, eval_curve True, final_per_day True, final_mean_except_wall_clock True, spec True, policy_and_adam True, diagnostic_integrity True, recomputed_approx_kl True, recording_schema boundary-aware, passed True
+  clip_0.1   seed1: complete True, progress_except_wall_clock True, eval_curve True, final_per_day True, final_mean_except_wall_clock True, spec True, policy_and_adam True, diagnostic_integrity True, recomputed_approx_kl True, recording_schema legacy-validated, passed True
+  clip_0.1   seed2: complete True, progress_except_wall_clock True, eval_curve True, final_per_day True, final_mean_except_wall_clock True, spec True, policy_and_adam True, diagnostic_integrity True, recomputed_approx_kl True, recording_schema legacy-validated, passed True
+  baseline   seed0: complete True, progress_except_wall_clock True, eval_curve True, final_per_day True, final_mean_except_wall_clock True, spec True, policy_and_adam True, diagnostic_integrity True, recomputed_approx_kl True, recording_schema legacy-validated, passed True
+  baseline   seed1: complete True, progress_except_wall_clock True, eval_curve True, final_per_day True, final_mean_except_wall_clock True, spec True, policy_and_adam True, diagnostic_integrity True, recomputed_approx_kl True, recording_schema boundary-aware, passed True
+  baseline   seed2: complete True, progress_except_wall_clock True, eval_curve True, final_per_day True, final_mean_except_wall_clock True, spec True, policy_and_adam True, diagnostic_integrity True, recomputed_approx_kl True, recording_schema legacy-validated, passed True
+  clip_0.3   seed0: complete True, progress_except_wall_clock True, eval_curve True, final_per_day True, final_mean_except_wall_clock True, spec True, policy_and_adam True, diagnostic_integrity True, recomputed_approx_kl True, recording_schema legacy-validated, passed True
+  clip_0.3   seed1: complete True, progress_except_wall_clock True, eval_curve True, final_per_day True, final_mean_except_wall_clock True, spec True, policy_and_adam True, diagnostic_integrity True, recomputed_approx_kl True, recording_schema legacy-validated, passed True
+  clip_0.3   seed2: complete True, progress_except_wall_clock True, eval_curve True, final_per_day True, final_mean_except_wall_clock True, spec True, policy_and_adam True, diagnostic_integrity True, recomputed_approx_kl True, recording_schema legacy-validated, passed True
+  clip_0.5   seed0: complete True, progress_except_wall_clock True, eval_curve True, final_per_day True, final_mean_except_wall_clock True, spec True, policy_and_adam True, diagnostic_integrity True, recomputed_approx_kl True, recording_schema legacy-validated, passed True
+  clip_0.5   seed1: complete True, progress_except_wall_clock True, eval_curve True, final_per_day True, final_mean_except_wall_clock True, spec True, policy_and_adam True, diagnostic_integrity True, recomputed_approx_kl True, recording_schema legacy-validated, passed True
+  clip_0.5   seed2: complete True, progress_except_wall_clock True, eval_curve True, final_per_day True, final_mean_except_wall_clock True, spec True, policy_and_adam True, diagnostic_integrity True, recomputed_approx_kl True, recording_schema legacy-validated, passed True
+  epochs_1   seed0: complete True, progress_except_wall_clock True, eval_curve True, final_per_day True, final_mean_except_wall_clock True, spec True, policy_and_adam True, diagnostic_integrity True, recomputed_approx_kl True, recording_schema legacy-validated, passed True
+  epochs_1   seed1: complete True, progress_except_wall_clock True, eval_curve True, final_per_day True, final_mean_except_wall_clock True, spec True, policy_and_adam True, diagnostic_integrity True, recomputed_approx_kl True, recording_schema legacy-validated, passed True
+  epochs_1   seed2: complete True, progress_except_wall_clock True, eval_curve True, final_per_day True, final_mean_except_wall_clock True, spec True, policy_and_adam True, diagnostic_integrity True, recomputed_approx_kl True, recording_schema legacy-validated, passed True
+  epochs_3   seed0: complete True, progress_except_wall_clock True, eval_curve True, final_per_day True, final_mean_except_wall_clock True, spec True, policy_and_adam True, diagnostic_integrity True, recomputed_approx_kl True, recording_schema legacy-validated, passed True
+  epochs_3   seed1: complete True, progress_except_wall_clock True, eval_curve True, final_per_day True, final_mean_except_wall_clock True, spec True, policy_and_adam True, diagnostic_integrity True, recomputed_approx_kl True, recording_schema legacy-validated, passed True
+  epochs_3   seed2: complete True, progress_except_wall_clock True, eval_curve True, final_per_day True, final_mean_except_wall_clock True, spec True, policy_and_adam True, diagnostic_integrity True, recomputed_approx_kl True, recording_schema legacy-validated, passed True
+  ALL IDENTICAL: True
+
+seeds per config: {'clip_0.05': 3, 'clip_0.1': 3, 'baseline': 3, 'clip_0.3': 3, 'clip_0.5': 3, 'epochs_1': 3, 'epochs_3': 3}
+
+| clip range | σ | 越界比例（SB3 的 `clip_fraction`） | 其中梯度被置零 | 其中仍在往回拉 | 被置零数据的梯度长度 / 无裁剪梯度长度 | 被置零数据沿无裁剪梯度方向的份额 | 实际梯度与无裁剪梯度的夹角 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.05 | 0.157 | 20.3% | 11.3% | 9.0% | 79% | 28% | 约 49° |
+| 0.1 | 0.092 | 16.6% | 8.9% | 7.7% | 68% | 22% | 约 43° |
+| 0.2 | 0.068 | 13.2% | 7.0% | 6.1% | 59% | 19% | 约 40° |
+| 0.3 | 0.060 | 11.1% | 6.0% | 5.1% | 53% | 18% | 约 37° |
+| 0.5 | 0.054 | 10.9% | 6.1% | 4.8% | 47% | 18% | 约 35° |
+
+| clip range | 小批梯度一致性：实际使用 | 不带裁剪 | 第 1 遍后已走完全轮 KL 的 | 一轮内参数走过的路径长度 | 净位移 | 净位移 / 路径 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 0.05 | 0.012 | 0.051 | 63% | 1.15 | 0.101 | 0.09 |
+| 0.1 | 0.013 | 0.031 | 69% | 1.17 | 0.112 | 0.10 |
+| 0.2 | 0.015 | 0.032 | 67% | 1.20 | 0.128 | 0.11 |
+| 0.3 | 0.016 | 0.034 | 78% | 1.23 | 0.143 | 0.12 |
+| 0.5 | 0.020 | 0.037 | 37% | 1.29 | 0.193 | 0.15 |
+
+| clip range | 梯度范数裁剪的触发比例（全程） | 策略网络梯度范数 | 价值网络梯度范数 | 平均缩放系数 | σ 在 0.1–0.2 之间的轮次里的缩放系数 |
+| --- | --- | --- | --- | --- | --- |
+| 0.05 | 99.8% | 2.80 | 0.36 | 0.220 | 0.214 |
+| 0.1 | 99.9% | 4.81 | 0.29 | 0.132 | 0.197 |
+| 0.2 | 99.9% | 6.63 | 0.26 | 0.098 | 0.195 |
+| 0.3 | 99.9% | 7.64 | 0.25 | 0.086 | 0.188 |
+| 0.5 | 100.0% | 8.60 | 0.28 | 0.080 | 0.190 |
+
+| epochs | SB3 记录的 `approx_kl` | 一轮结束时的真实 KL | 记录值 / 真实值 |
+| --- | --- | --- | --- |
+| 1 | 0.0021 | 0.0036 | 0.57 |
+| 3 | 0.0044 | 0.0042 | 1.03 |
+| 10 | 0.0092 | 0.0093 | 0.99 |
+
+
+MAIN TABLE (mean over seeds, minibatches and epochs in the window)
+ clip             阶段  sigma  clip_fraction  zeroed_frac  against_frac  z_norm_share  z_proj_share  cos_c_u  consistency_c  consistency_u  grad_clipped  grad_clipped_unclipped_surrogate  grad_scale  grad_norm_actor  grad_norm_critic  cos_to_mean_c  cos_to_mean_u  logstd_g_c  logstd_g_u  logstd_g_z  near_boundary  past_boundary  kl_epoch1  kl_end  kl_mean_component  kl_std_component  kl_mean_share  mu_shift_abs  mean_shift_rms_end  path_efficiency
+ 0.05   前期（第 2–30 轮） 0.9553         0.0998       0.0618        0.0380        0.5876        0.3418   0.7271         0.0223         0.2018        1.0000                            1.0000      0.0547           0.4016           18.9300         0.1296         0.4045      0.0094      0.0628      0.0534         0.0342         0.0751     0.0004  0.0007             0.0005            0.0002         0.6946        0.0286              0.0301           0.1939
+ 0.05 后期（第 71–100 轮） 0.1573         0.2032       0.1131        0.0901        0.7938        0.2839   0.6603         0.0123         0.0511        0.9996                            1.0000      0.2198           2.7963            0.3589         0.0687         0.2072      0.0378      0.1288      0.0910         0.0404         0.1346     0.0011  0.0017             0.0013            0.0004         0.7545        0.0075              0.0480           0.0879
+ 0.10   前期（第 2–30 轮） 0.8292         0.0802       0.0497        0.0305        0.4952        0.2573   0.8022         0.0278         0.1330        0.9993                            0.9999      0.1616           0.5276           10.4854         0.1465         0.3420      0.0372      0.1073      0.0701         0.0317         0.0648     0.0013  0.0027             0.0015            0.0013         0.5374        0.0427              0.0516           0.2002
+ 0.10 后期（第 71–100 轮） 0.0917         0.1661       0.0891        0.0771        0.6817        0.2206   0.7259         0.0132         0.0306        1.0000                            1.0000      0.1317           4.8052            0.2855         0.0703         0.1561      0.0342      0.0712      0.0370         0.0332         0.1030     0.0029  0.0043             0.0039            0.0003         0.9191        0.0077              0.0842           0.0959
+ 0.20   前期（第 2–30 轮） 0.6785         0.0547       0.0332        0.0215        0.3602        0.1636   0.8773         0.0300         0.0841        0.9981                            0.9987      0.2522           0.7478            5.7156         0.1545         0.2774      0.0756      0.1257      0.0501         0.0250         0.0457     0.0029  0.0070             0.0045            0.0025         0.6436        0.0614              0.0897           0.2198
+ 0.20 后期（第 71–100 轮） 0.0684         0.1318       0.0705        0.0613        0.5950        0.1936   0.7673         0.0152         0.0317        1.0000                            1.0000      0.0983           6.6346            0.2553         0.0689         0.1554      0.0353      0.0515      0.0161         0.0307         0.0805     0.0083  0.0123             0.0120            0.0004         0.9696        0.0100              0.1479           0.1061
+ 0.30   前期（第 2–30 轮） 0.5902         0.0460       0.0273        0.0187        0.2973        0.1263   0.9053         0.0298         0.0702        0.9981                            0.9987      0.2691           0.9162            3.9205         0.1531         0.2523      0.0927      0.1238      0.0312         0.0241         0.0378     0.0059  0.0129             0.0099            0.0030         0.7682        0.0792              0.1317           0.2371
+ 0.30 后期（第 71–100 轮） 0.0602         0.1112       0.0599        0.0513        0.5301        0.1811   0.7971         0.0163         0.0343        1.0000                            1.0000      0.0861           7.6352            0.2504         0.0717         0.1621      0.0344      0.0391      0.0047         0.0294         0.0723     0.0192  0.0248             0.0244            0.0004         0.9850        0.0126              0.2118           0.1163
+ 0.50   前期（第 2–30 轮） 0.5159         0.0371       0.0208        0.0163        0.2286        0.0928   0.9318         0.0299         0.0485        0.9986                            0.9990      0.2825           1.0738            2.6660         0.1500         0.2222      0.1050      0.1139      0.0089         0.0254         0.0306     0.0115  0.0359             0.0326            0.0033         0.9081        0.1180              0.2315           0.2815
+ 0.50 后期（第 71–100 轮） 0.0543         0.1092       0.0609        0.0483        0.4669        0.1800   0.8230         0.0196         0.0369        1.0000                            1.0000      0.0795           8.5959            0.2814         0.0761         0.1669      0.0351      0.0323     -0.0028         0.0318         0.0811     0.0536  0.1450             0.1445            0.0004         0.9969        0.0240              0.4484           0.1489
+
+SPREAD ACROSS SEEDS, late rounds (mean, +- half range over the 3 seeds)
+  clip 0.05 zeroed_frac 0.113+-0.003, z_proj_share 0.284+-0.002, z_norm_share 0.794+-0.013, consistency_c 0.012+-0.001, consistency_u 0.051+-0.009, grad_scale 0.220+-0.006, kl_end 0.0017+-0.0002
+  clip 0.1  zeroed_frac 0.089+-0.008, z_proj_share 0.221+-0.016, z_norm_share 0.682+-0.039, consistency_c 0.013+-0.000, consistency_u 0.031+-0.003, grad_scale 0.132+-0.014, kl_end 0.0043+-0.0002
+  clip 0.2  zeroed_frac 0.070+-0.003, z_proj_share 0.194+-0.008, z_norm_share 0.595+-0.027, consistency_c 0.015+-0.002, consistency_u 0.032+-0.005, grad_scale 0.098+-0.005, kl_end 0.0123+-0.0006
+  clip 0.3  zeroed_frac 0.060+-0.002, z_proj_share 0.181+-0.005, z_norm_share 0.530+-0.019, consistency_c 0.016+-0.001, consistency_u 0.034+-0.008, grad_scale 0.086+-0.002, kl_end 0.0248+-0.0027
+  clip 0.5  zeroed_frac 0.061+-0.008, z_proj_share 0.180+-0.010, z_norm_share 0.467+-0.025, consistency_c 0.020+-0.001, consistency_u 0.037+-0.003, grad_scale 0.080+-0.006, kl_end 0.1450+-0.0983
+
+KL AFTER EACH EPOCH, late rounds (exact Gaussian KL on all 2048 samples)
+  clip 0.05 0.0011 0.0012 0.0012 0.0013 0.0013 0.0014 0.0015 0.0016 0.0015 0.0017   epoch 10 / epoch 1 = 1.58
+  clip 0.1  0.0029 0.0037 0.0038 0.0039 0.0037 0.0035 0.0041 0.0039 0.0044 0.0043   epoch 10 / epoch 1 = 1.46
+  clip 0.2  0.0083 0.0113 0.0098 0.0119 0.0123 0.0116 0.0121 0.0125 0.0135 0.0123   epoch 10 / epoch 1 = 1.49
+  clip 0.3  0.0192 0.0207 0.0203 0.0226 0.0219 0.0223 0.0216 0.0242 0.0257 0.0248   epoch 10 / epoch 1 = 1.29
+  clip 0.5  0.0536 0.0546 0.0673 0.0821 0.1099 0.1073 0.1165 0.1337 0.1330 0.1450   epoch 10 / epoch 1 = 2.70
+  same, early rounds
+  clip 0.05 0.0004 0.0004 0.0005 0.0006 0.0006 0.0007 0.0006 0.0007 0.0007 0.0007   epoch 10 / epoch 1 = 1.66
+  clip 0.1  0.0013 0.0014 0.0016 0.0018 0.0020 0.0022 0.0025 0.0026 0.0026 0.0027   epoch 10 / epoch 1 = 2.14
+  clip 0.2  0.0029 0.0037 0.0045 0.0046 0.0051 0.0056 0.0059 0.0065 0.0067 0.0070   epoch 10 / epoch 1 = 2.43
+  clip 0.3  0.0059 0.0083 0.0095 0.0092 0.0104 0.0106 0.0111 0.0120 0.0125 0.0129   epoch 10 / epoch 1 = 2.19
+  clip 0.5  0.0115 0.0197 0.0236 0.0246 0.0274 0.0292 0.0290 0.0319 0.0354 0.0359   epoch 10 / epoch 1 = 3.12
+
+DISTRIBUTION OF u = sign(A)(r-1)/eps AT THE END OF A ROUND, late rounds
+  clip 0.05 u_lt_m1   9.8%  u_m1_0  35.8%  u_0_05  26.0%  u_05_08  10.9%  u_08_1   4.0%  u_gt_1  13.5%
+  clip 0.1  u_lt_m1   8.0%  u_m1_0  38.8%  u_0_05  31.9%  u_05_08   7.7%  u_08_1   3.3%  u_gt_1  10.3%
+  clip 0.2  u_lt_m1   6.4%  u_m1_0  41.4%  u_0_05  33.9%  u_05_08   7.3%  u_08_1   3.1%  u_gt_1   8.1%
+  clip 0.3  u_lt_m1   5.5%  u_m1_0  42.5%  u_0_05  34.8%  u_05_08   7.0%  u_08_1   2.9%  u_gt_1   7.2%
+  clip 0.5  u_lt_m1   5.6%  u_m1_0  42.1%  u_0_05  33.7%  u_05_08   7.4%  u_08_1   3.2%  u_gt_1   8.1%
+
+GRADIENT-NORM CLIPPING (max_grad_norm 0.5, actor and critic together)
+  clip 0.05 fired on 99.8% of updates (lowest round 99%); with the unclipped surrogate it would fire on 100.0%; actor norm early 0.40 late 2.80; critic norm early 18.930 late 0.359; scale late 0.220
+  clip 0.1  fired on 99.9% of updates (lowest round 99%); with the unclipped surrogate it would fire on 100.0%; actor norm early 0.53 late 4.81; critic norm early 10.485 late 0.285; scale late 0.132
+  clip 0.2  fired on 99.9% of updates (lowest round 99%); with the unclipped surrogate it would fire on 100.0%; actor norm early 0.75 late 6.63; critic norm early 5.716 late 0.255; scale late 0.098
+  clip 0.3  fired on 99.9% of updates (lowest round 99%); with the unclipped surrogate it would fire on 100.0%; actor norm early 0.92 late 7.64; critic norm early 3.920 late 0.250; scale late 0.086
+  clip 0.5  fired on 100.0% of updates (lowest round 99%); with the unclipped surrogate it would fire on 100.0%; actor norm early 1.07 late 8.60; critic norm early 2.666 late 0.281; scale late 0.080
+
+log_std GRADIENT (late rounds, mean per minibatch; positive = gradient descent lowers sigma)
+  clip 0.05 used +0.0378, unclipped +0.1288, removed +0.0910, removed/unclipped 70.7%
+  clip 0.1  used +0.0342, unclipped +0.0712, removed +0.0370, removed/unclipped 52.0%
+  clip 0.2  used +0.0353, unclipped +0.0515, removed +0.0161, removed/unclipped 31.4%
+  clip 0.3  used +0.0344, unclipped +0.0391, removed +0.0047, removed/unclipped 11.9%
+  clip 0.5  used +0.0351, unclipped +0.0323, removed -0.0028, removed/unclipped -8.6%
+
+MEAN MINIBATCH DIRECTION COSINE TO EPOCH MEAN, late rounds
+  clip 0.05 actual 0.069, unclipped 0.207
+  clip 0.1  actual 0.070, unclipped 0.156
+  clip 0.2  actual 0.069, unclipped 0.155
+  clip 0.3  actual 0.072, unclipped 0.162
+  clip 0.5  actual 0.076, unclipped 0.167
+
+SAME-SIGMA COMPARISON: rounds whose starting sigma is between 0.10 and 0.20
+  clip 0.05  83 rounds: zeroed 11.4%, z_proj_share 28%, consistency c 0.012 u 0.051, kl_end 0.0017, path efficiency 0.09, grad scale 0.214
+  clip 0.1   87 rounds: zeroed 7.6%, z_proj_share 22%, consistency c 0.014 u 0.039, kl_end 0.0038, path efficiency 0.11, grad scale 0.197
+  clip 0.2   70 rounds: zeroed 4.8%, z_proj_share 15%, consistency c 0.016 u 0.032, kl_end 0.0083, path efficiency 0.14, grad scale 0.195
+  clip 0.3   63 rounds: zeroed 3.7%, z_proj_share 12%, consistency c 0.020 u 0.029, kl_end 0.0147, path efficiency 0.16, grad scale 0.188
+  clip 0.5   62 rounds: zeroed 3.3%, z_proj_share 12%, consistency c 0.020 u 0.026, kl_end 0.0456, path efficiency 0.21, grad scale 0.190
+
+TRUE END-OF-ROUND KL vs WHAT SB3 LOGS (all rounds; SB3 averages the last epoch, measured before each step)
+  epochs  1: exact KL at end of round 0.0036, SB3 approx_kl 0.0021, ratio 1.75
+  epochs  3: exact KL at end of round 0.0042, SB3 approx_kl 0.0044, ratio 0.97
+  epochs 10: exact KL at end of round 0.0093, SB3 approx_kl 0.0092, ratio 1.01
+  epochs  1: KL after each epoch 0.0036
+  epochs  3: KL after each epoch 0.0040 0.0038 0.0042
+  epochs 10: KL after each epoch 0.0060 0.0073 0.0073 0.0079 0.0081 0.0082 0.0088 0.0088 0.0095 0.0093
+
+TRUE END-OF-ROUND KL vs WHAT SB3 LOGS, clip ranges (late rounds)
+  clip 0.05 exact 0.0017, SB3 approx_kl 0.0016, ratio 1.09
+  clip 0.1  exact 0.0043, SB3 approx_kl 0.0042, ratio 1.02
+  clip 0.2  exact 0.0123, SB3 approx_kl 0.0122, ratio 1.01
+  clip 0.3  exact 0.0248, SB3 approx_kl 0.0249, ratio 0.99
+  clip 0.5  exact 0.1450, SB3 approx_kl 0.1367, ratio 1.06
+
+LATE-ROUND KL DECOMPOSITION: action-mean movement and sigma movement
+  clip 0.05 mean KL 0.001295, sigma KL 0.000421, mean share 75.4%, action-mean shift 0.007469, shift in old sigma units 0.047994
+  clip 0.1  mean KL 0.003906, sigma KL 0.000344, mean share 91.9%, action-mean shift 0.007701, shift in old sigma units 0.084217
+  clip 0.2  mean KL 0.011967, sigma KL 0.000375, mean share 97.0%, action-mean shift 0.010029, shift in old sigma units 0.147933
+  clip 0.3  mean KL 0.024381, sigma KL 0.000371, mean share 98.5%, action-mean shift 0.012605, shift in old sigma units 0.211842
+  clip 0.5  mean KL 0.144542, sigma KL 0.000444, mean share 99.7%, action-mean shift 0.023954, shift in old sigma units 0.448391
+
+CLIP 0.5 PERFORMANCE: original 10-seed final evaluation
+  baseline: cost 4.732907, energy 4.570191, discomfort 0.081358
+  clip_0.5: cost 5.105832, energy 4.711188, discomfort 0.197322
+  discomfort contribution to cost increase: 0.231929, share 62.2%
+  worst seed 3, step 155648: cost 4.790068, discomfort 0.047344, energy 4.695380
+  worst seed 3, step 204800: cost 6.281800, discomfort 0.824757, energy 4.632287
+
+CONSISTENCY BY EPOCH, late rounds (used gradient c / unclipped u); 1/32 = 0.031
+  clip 0.05 c 0.013 0.014 0.013 0.014 0.013 0.012 0.011 0.011 0.011 0.011  |  u 0.051 0.052 0.053 0.051 0.052 0.048 0.052 0.051 0.052 0.049
+  clip 0.1  c 0.012 0.014 0.012 0.014 0.015 0.013 0.014 0.012 0.012 0.015  |  u 0.032 0.031 0.031 0.032 0.030 0.029 0.030 0.030 0.031 0.029
+  clip 0.2  c 0.015 0.015 0.016 0.015 0.017 0.016 0.014 0.015 0.014 0.015  |  u 0.033 0.033 0.031 0.032 0.031 0.031 0.030 0.031 0.033 0.032
+  clip 0.3  c 0.014 0.018 0.020 0.017 0.016 0.017 0.016 0.016 0.015 0.015  |  u 0.035 0.037 0.033 0.035 0.034 0.035 0.032 0.035 0.033 0.035
+  clip 0.5  c 0.019 0.022 0.019 0.020 0.020 0.021 0.019 0.019 0.019 0.018  |  u 0.036 0.034 0.037 0.040 0.039 0.036 0.036 0.037 0.035 0.038
+
+ACROSS ROUNDS: does a round undo the previous ones? (early / late window; 1 = all rounds push the same way)
+  clip 0.05 early: cos(prev round) +0.483, params 10-round net/sum 0.713, action mean 10-round net/sum 0.743, per-round action-mean shift 0.0300 | late: cos(prev round) +0.109, params 10-round net/sum 0.486, action mean 10-round net/sum 0.425, per-round action-mean shift 0.0075
+  clip 0.1  early: cos(prev round) +0.339, params 10-round net/sum 0.633, action mean 10-round net/sum 0.554, per-round action-mean shift 0.0393 | late: cos(prev round) +0.074, params 10-round net/sum 0.435, action mean 10-round net/sum 0.311, per-round action-mean shift 0.0077
+  clip 0.2  early: cos(prev round) +0.185, params 10-round net/sum 0.530, action mean 10-round net/sum 0.469, per-round action-mean shift 0.0470 | late: cos(prev round) +0.062, params 10-round net/sum 0.418, action mean 10-round net/sum 0.289, per-round action-mean shift 0.0100
+  clip 0.3  early: cos(prev round) +0.153, params 10-round net/sum 0.492, action mean 10-round net/sum 0.420, per-round action-mean shift 0.0551 | late: cos(prev round) +0.072, params 10-round net/sum 0.386, action mean 10-round net/sum 0.266, per-round action-mean shift 0.0126
+  clip 0.5  early: cos(prev round) +0.073, params 10-round net/sum 0.430, action mean 10-round net/sum 0.309, per-round action-mean shift 0.0821 | late: cos(prev round) +0.032, params 10-round net/sum 0.358, action mean 10-round net/sum 0.268, per-round action-mean shift 0.0240
+  epochs  1 late: cos(prev round) -0.046, params net/sum 0.285, action mean net/sum 0.221
+  epochs  3 late: cos(prev round) +0.136, params net/sum 0.451, action mean net/sum 0.328
+  epochs 10 late: cos(prev round) +0.062, params net/sum 0.418, action mean net/sum 0.289
+  spread across seeds, late, action mean net/sum:
+    clip 0.05 0.425 +- 0.015
+    clip 0.1  0.311 +- 0.036
+    clip 0.2  0.289 +- 0.015
+    clip 0.3  0.266 +- 0.019
+    clip 0.5  0.268 +- 0.055
+
+PATH EFFICIENCY (net displacement / path length of the actor parameters within a round)
+  clip 0.05 early 0.194, late 0.088; path length per round early 1.0516 late 1.1456; net displacement early 0.1930 late 0.1007; cos between consecutive steps late +0.847
+  clip 0.1  early 0.200, late 0.096; path length per round early 1.3906 late 1.1668; net displacement early 0.2654 late 0.1118; cos between consecutive steps late +0.857
+  clip 0.2  early 0.220, late 0.106; path length per round early 1.5247 late 1.2045; net displacement early 0.3298 late 0.1277; cos between consecutive steps late +0.862
+  clip 0.3  early 0.237, late 0.116; path length per round early 1.5588 late 1.2312; net displacement early 0.3684 late 0.1431; cos between consecutive steps late +0.861
+  clip 0.5  early 0.282, late 0.149; path length per round early 1.5648 late 1.2872; net displacement early 0.4429 late 0.1929; cos between consecutive steps late +0.861
+
+SHARE OF THE END-OF-ROUND KL ALREADY REACHED AFTER THE FIRST EPOCH
+  clip 0.05 early 60%, late 63%
+  clip 0.1  early 47%, late 69%
+  clip 0.2  early 41%, late 67%
+  clip 0.3  early 46%, late 78%
+  clip 0.5  early 32%, late 37%
+
+DENSITY OF u JUST INSIDE THE BOUNDARY (fraction per unit of u), end of round, late rounds
+  clip 0.05 (0, 0.5] 0.520   (0.5, 0.8] 0.363   (0.8, 1] 0.202   beyond 1: 13.5% of samples
+  clip 0.1  (0, 0.5] 0.637   (0.5, 0.8] 0.255   (0.8, 1] 0.166   beyond 1: 10.3% of samples
+  clip 0.2  (0, 0.5] 0.677   (0.5, 0.8] 0.242   (0.8, 1] 0.153   beyond 1: 8.1% of samples
+  clip 0.3  (0, 0.5] 0.696   (0.5, 0.8] 0.235   (0.8, 1] 0.147   beyond 1: 7.2% of samples
+  clip 0.5  (0, 0.5] 0.674   (0.5, 0.8] 0.246   (0.8, 1] 0.159   beyond 1: 8.1% of samples
+
+reproduced exactly: True
