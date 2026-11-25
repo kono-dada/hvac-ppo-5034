@@ -24,7 +24,7 @@
         stroke: 0.8pt + ink))
     }
     for t in range(0, int(hi) + 1, step: 10) {
-      place(top + left, dx: w * frac(t), dy: h + 5pt, place(center + top, text(fill: muted, size: 0.94em)[#t]))
+      place(top + left, dx: w * frac(t), dy: h + 5pt, place(center + top, text(fill: muted)[#t]))
     }
   })
 }
@@ -55,7 +55,6 @@
   }
   // colour key
   block(width: width, below: 0.7em, {
-    set text(size: 0.96em)
     box(baseline: -2pt)[Daily mean outdoor temperature (°C)]
     h(0.8em)
     box(colour-bar(5.2cm), baseline: 9pt)
@@ -76,7 +75,7 @@
         fill: comfort.transparentize(78%), stroke: none, z-index: 1),
       ..lines("t_out"),
       lq.place(occ.at(0), (cfg.comfort_low + cfg.comfort_high) / 2, align: right + horizon, pad(right: 3pt,
-        tag(fill: white.transparentize(10%), color: comfort.darken(15%), weight: "semibold")[comfort
+        tag(fill: white.transparentize(10%), color: comfort.darken(15%), weight: "bold")[comfort
           #int(cfg.comfort_low)–#int(cfg.comfort_high) °C])),
     ),
     lq.diagram(

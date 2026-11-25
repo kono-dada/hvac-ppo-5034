@@ -20,14 +20,12 @@
 #let date = [November 2026]
 
 #show: report.with(
-  kicker: [#course · Final project report],
   title: [Building HVAC Control with PPO],
-  subtitle: [Effect of clip range, GAE lambda, and number of epochs],
+  subtitle: [Effect of Clip Range, GAE Lambda, and Number of Epochs],
+  course: [#course Final Project Report],
   authors: authors,
   date: date,
   abstract: include "sections/00-abstract.typ",
-  keywords: ([reinforcement learning], [PPO], [HVAC control], [hyperparameter ablation], [Stable-Baselines3]),
-  running-title: [Building HVAC Control with PPO · #course],
 )
 
 // ---------------------------------------------------------------- sections

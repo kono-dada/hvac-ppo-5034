@@ -14,7 +14,7 @@
 #import "figures/ablation-update-size.typ" as update
 
 #set page(paper: "a4", margin: 2.5cm)
-#set text(font: "Fira Sans", size: 10pt)
+#set text(font: "New Computer Modern", size: 10pt)
 #show figure.caption: set text(size: 9pt)
 #show figure: set block(breakable: false, below: 2em)
 

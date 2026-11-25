@@ -97,7 +97,22 @@
     caption: caption,
     layout(size => {
       // Text settings of the report must not leak into the figures.
-      set par(justify: false, first-line-indent: 0pt)
+      set par(justify: false, first-line-indent: 0pt, leading: 0.65em)
+      set text(top-edge: "cap-height", bottom-edge: "baseline")
+      body(size.width)
+    }),
+  )
+  #label
+]
+
+/// A figure inside one column. `body` is a function of the available width.
+#let column-figure(body, caption: none, label: none, placement: auto) = [
+  #figure(
+    placement: placement,
+    caption: caption,
+    layout(size => {
+      set par(justify: false, first-line-indent: 0pt, leading: 0.65em)
+      set text(top-edge: "cap-height", bottom-edge: "baseline")
       body(size.width)
     }),
   )

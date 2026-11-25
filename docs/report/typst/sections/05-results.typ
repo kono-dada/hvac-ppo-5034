@@ -41,7 +41,7 @@
   set text(size: 7.3pt)
   let thin = 0.4pt + muted
   table(
-    columns: (1.2cm, 1.2cm, 1.95cm, 2.45cm, 1.7cm, 1.15cm, 1.45cm, 1.3cm, 0.8cm, 1.0cm, 1.15cm, 1fr),
+    columns: (auto,) * (n-cols - 1) + (1fr,),
     align: (left,) + (center,) * (n-cols - 1),
     inset: (x: 2.5pt, y: 2.6pt),
     rule-heavy,
@@ -151,7 +151,7 @@ Thirty epochs and $lambda = 0.8$ and 0.9 lie further along, saving energy at the
 Only $epsilon = 0.5$ leaves the path.
 
 #wide-figure(
-  from-module(curves.render, shrink: 0.8),
+  from-module(curves.render),
   caption: [Learning curves: cost, energy and discomfort on the 100 test days during training (mean of 10 seeds; band: ±1 standard deviation). Values below the baseline are blue, values above it orange to red.],
   label: <fig-curves>,
 )
@@ -190,7 +190,7 @@ Single updates reach an `approx_kl` of #num(cfg("clip_0.5").approx_kl_max, digit
 Compared with the literature, 0.1 to 0.3 are equivalent here, and "both ends are worse" holds only for 0.05 and 0.5.
 
 #wide-figure(
-  from-module(tradeoff.render, shrink: 0.8),
+  from-module(tradeoff.render),
   caption: [Energy against discomfort. The black line is the path of the baseline configuration during training; the markers show where each setting ends up (mean of 10 seeds, with 95% confidence intervals in panel b). Dotted lines connect points of equal cost.],
   label: <fig-tradeoff>,
 )

@@ -1,25 +1,34 @@
-// Layout of the report: a compact two-column A4 paper.
+// Layout of the report: a two-column A4 course report in the style of a LaTeX article
+// (\documentclass[10pt,twocolumn]{article}).
 //
-// Typography: body text in Libertinus Serif (ships with Typst); headings, captions and
-// tables in Fira Sans, the typeface of the figures (figures/style.typ), so that text and
-// figures read as one piece. No system fonts are needed (Fira lives in tools/fonts).
+// Typography: everything (title, headings, body, captions, tables) in New Computer Modern,
+// maths in New Computer Modern Math; both ship with Typst, so no system fonts are needed.
+// The figures use the same typeface (figures/style.typ) and are placed at natural size, so their
+// 8pt text matches the tables.
 //
 // This file only defines how things look. Content lives in sections/, shared data and
 // helpers in lib.typ, and the title-page information in report.typ.
 
-// ---------------------------------------------------------------- palette (matches figures/style.typ)
+// ---------------------------------------------------------------- palette
+// Shared with the figures (figures/style.typ) for the verdict marks and table rules.
 #let ink = rgb("#1d232b")
 #let muted = rgb("#6b7380")
 #let faint = rgb("#dfe3e8")
-#let soft = rgb("#f3f5f7")
-#let accent = rgb("#24558f")
 #let good = rgb("#3f9256")
 #let warn = rgb("#c98a1b")
 #let bad = rgb("#d1453b")
+#let link-colour = rgb("#1f4e8c")
 
-#let serif = "Libertinus Serif"
-#let sans = "Fira Sans"
+#let serif = "New Computer Modern"
 #let mono = "DejaVu Sans Mono"
+
+// Body text size; everything else is relative to it.
+#let body-size = 10pt
+// Lines are measured from the font's ascender to its descender rather than from the cap
+// height to the baseline, so that sub- and superscripts and small inline maths fit inside
+// the line and do not push individual lines apart. Baseline-to-baseline distance is then
+// about 1em + leading (here 12.2pt, close to LaTeX's 12pt at 10pt).
+#let leading = 0.3em
 
 // ---------------------------------------------------------------- small helpers
 /// A visible placeholder for information that still has to be filled in.
@@ -32,140 +41,118 @@
   text(fill: rgb("#7a5a00"), body),
 )
 
-/// Run-in paragraph heading.
-#let para(title) = text(font: sans, size: 0.9em, weight: "semibold", fill: ink, title) + h(0.55em)
-
-/// Text set like a table or caption (sans, small); for notes under tables.
-#let small(body) = {
-  set text(font: sans, size: 7.2pt, fill: muted)
-  set par(justify: false, leading: 0.48em, first-line-indent: 0pt)
-  body
-}
+/// Run-in paragraph heading, like LaTeX's \paragraph.
+#let para(title) = strong(title) + h(0.6em)
 
 // ---------------------------------------------------------------- the template
 #let report(
   title: none,
   subtitle: none,
-  kicker: none,
+  course: none,
   authors: (),
   date: none,
   abstract: none,
-  keywords: (),
-  running-title: none,
   body,
 ) = {
   set document(title: title)
   set page(
     paper: "a4",
-    margin: (x: 1.8cm, top: 1.8cm, bottom: 2.0cm),
+    margin: (x: 1.9cm, top: 2.0cm, bottom: 2.2cm),
     columns: 2,
-    footer: context {
-      set text(font: sans, size: 7.2pt, fill: muted)
-      grid(
-        columns: (1fr, auto),
-        running-title,
-        [#counter(page).display() / #counter(page).final().first()],
-      )
-    },
+    numbering: "1",
+    number-align: center,
   )
-  set columns(gutter: 0.6cm)
-  set text(font: serif, size: 9.3pt, fill: ink, lang: "en", number-type: "lining")
-  set par(justify: true, leading: 0.56em, spacing: 0.56em, first-line-indent: 1em)
-  show raw: set text(font: mono, size: 0.84em)
+  set columns(gutter: 0.7cm)
+  set text(font: serif, size: body-size, fill: ink, lang: "en", top-edge: "ascender", bottom-edge: "descender")
+  set par(justify: true, leading: leading, spacing: leading, first-line-indent: 1.5em)
+  show raw: set text(font: mono, size: 0.82em)
+  // The centred dot of New Computer Modern is set with wide side bearings; tighten the unit.
+  show "K·h": box[K#h(-0.1em)·#h(-0.1em)h]
 
-  // headings
+  // headings: numbered, bold, same family as the text
   set heading(numbering: "1.1")
-  show heading: set par(first-line-indent: 0pt, justify: false)
-  show heading.where(level: 1): it => block(above: 1.3em, below: 0.75em, sticky: true, {
-    set text(font: sans, size: 10.6pt, weight: "semibold", fill: ink)
-    if it.numbering != none {
-      text(fill: accent, counter(heading).display(it.numbering))
-      h(0.65em)
+  show heading: set par(justify: false, first-line-indent: 0pt)
+  show heading: it => {
+    // Absolute sizes, a step below LaTeX's defaults because the columns are narrow.
+    let (size, above, below, number-width) = if it.level == 1 {
+      (12pt, 17pt, 8pt, 1.5em)
+    } else {
+      (10.5pt, 13pt, 6pt, 2.2em)
     }
-    it.body
-  })
-  show heading.where(level: 2): it => block(above: 1.05em, below: 0.65em, sticky: true, {
-    set text(font: sans, size: 9.1pt, weight: "semibold", fill: ink)
-    if it.numbering != none {
-      text(fill: accent, counter(heading).display(it.numbering))
-      h(0.6em)
-    }
-    it.body
-  })
+    set text(size: size, weight: "bold")
+    block(above: above, below: below, sticky: true, {
+      if it.numbering != none {
+        // hanging indent: a wrapped title stays aligned with its first line
+        grid(columns: (number-width, 1fr), counter(heading).display(it.numbering), it.body)
+      } else {
+        it.body
+      }
+    })
+  }
 
   // maths
   set math.equation(numbering: "(1)", supplement: [Eq.])
-  show math.equation.where(block: true): set block(above: 0.85em, below: 0.85em)
+  show math.equation.where(block: true): set block(above: 0.8em, below: 0.8em)
 
   // lists
-  set list(indent: 0.3em, body-indent: 0.5em, spacing: 0.56em, marker: text(fill: accent, sym.bullet))
-  set enum(indent: 0.3em, body-indent: 0.5em, spacing: 0.56em)
+  set list(indent: 0.6em, body-indent: 0.5em, spacing: leading)
+  set enum(indent: 0.6em, body-indent: 0.5em, spacing: leading)
+  show list: set block(above: 0.6em, below: 0.6em)
+  show enum: set block(above: 0.6em, below: 0.6em)
 
   // figures and tables
-  set figure(gap: 0.7em)
-  set place(clearance: 1.25em)
+  set figure(gap: 0.8em)
+  set place(clearance: 1.4em)
   show figure.caption: it => {
-    set text(font: sans, size: 7.7pt, fill: ink)
-    set par(justify: false, leading: 0.5em, first-line-indent: 0pt)
+    set text(size: 9pt)
+    set par(justify: true, leading: 0.24em, first-line-indent: 0pt)
     set align(left)
-    text(weight: "semibold", fill: accent)[#it.supplement #context it.counter.display(it.numbering)]
-    h(0.55em)
-    it.body
+    [*#it.supplement #context it.counter.display(it.numbering).* #it.body]
   }
   show figure.where(kind: table): set figure.caption(position: top)
-  show figure.where(kind: table): set figure(gap: 0.55em)
-  set table(stroke: none, inset: (x: 3.2pt, y: 2.7pt))
-  show table: set text(font: sans, size: 7.5pt, number-type: "lining", number-width: "tabular")
-  show table: set par(justify: false, leading: 0.45em, first-line-indent: 0pt)
+  show figure.where(kind: table): set figure(gap: 0.7em)
+  set table(stroke: none, inset: (x: 3pt, y: 2.6pt))
+  // Size set on the figure, so that a table can still choose a smaller one for itself.
+  show figure.where(kind: table): set text(size: 8pt)
+  show table: set text(number-width: "tabular")
+  show table: set par(justify: false, leading: 0.2em, first-line-indent: 0pt)
 
   // references and links
-  show cite: set text(fill: accent)
-  show ref: set text(fill: accent)
-  show link: set text(fill: accent)
+  show cite: set text(fill: link-colour)
+  show ref: set text(fill: link-colour)
+  show link: set text(fill: link-colour)
   set bibliography(style: "ieee", title: [References])
-  show bibliography: set text(size: 7.6pt)
-  show bibliography: set par(justify: false, leading: 0.48em, spacing: 0.5em, first-line-indent: 0pt)
+  show bibliography: set text(size: 8.5pt)
+  show bibliography: set par(justify: false, leading: 0.22em, spacing: 0.6em, first-line-indent: 0pt)
 
-  // ---- title block, across both columns
-  place(top + center, float: true, scope: "parent", clearance: 1.6em, {
-    set par(first-line-indent: 0pt, justify: false)
-    set align(left)
-    if kicker != none {
-      text(font: sans, size: 8pt, weight: "medium", fill: accent, tracking: 0.07em, upper(kicker))
-      v(0.7em, weak: true)
-    }
-    text(font: sans, size: 19pt, weight: "bold", fill: ink, title)
+  // ---- title block, across both columns (like \twocolumn[...] with \maketitle)
+  place(top + center, float: true, scope: "parent", clearance: 1.8em, {
+    set align(center)
+    set par(justify: false, first-line-indent: 0pt, leading: 0.25em)
+    v(0.3cm)
+    text(size: 17pt, weight: "bold", title)
     if subtitle != none {
-      v(0.6em, weak: true)
-      text(font: sans, size: 12pt, weight: "regular", fill: muted, subtitle)
+      v(0.8em, weak: true)
+      text(size: 12pt, subtitle)
     }
-    v(1.1em, weak: true)
+    v(1.4em, weak: true)
     {
-      set text(font: sans, size: 9pt)
-      authors.join(h(1.6em))
-      if date != none {
-        h(1fr)
-        text(fill: muted, date)
-      }
+      set text(size: 11pt)
+      authors.join(h(2em))
+      if course != none { linebreak(); course }
+      if date != none { linebreak(); date }
     }
-    v(1.1em, weak: true)
-    block(
-      width: 100%,
-      fill: soft,
-      stroke: (left: 2.2pt + accent),
-      inset: (left: 11pt, right: 11pt, y: 9pt),
-      {
-        set par(justify: true, leading: 0.56em)
-        text(font: sans, size: 8.4pt, weight: "semibold", fill: accent)[Abstract]
-        h(0.7em)
+    if abstract != none {
+      v(1.6em, weak: true)
+      block(width: 82%, {
+        set text(size: 9.5pt)
+        set par(justify: true, first-line-indent: 0pt, leading: 0.28em)
+        set align(left)
+        align(center, strong[Abstract])
+        v(0.6em, weak: true)
         abstract
-        if keywords.len() > 0 {
-          v(0.7em, weak: true)
-          set text(font: sans, size: 7.7pt, fill: muted)
-          [#text(weight: "semibold")[Keywords] #h(0.5em) #keywords.join([ · ])]
-        }
-      },
-    )
+      })
+    }
   })
 
   body

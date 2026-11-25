@@ -70,7 +70,7 @@
           out.push(lq.line((e.lo, q.mean), (e.hi, q.mean), stroke: 1.2pt + c.transparentize(60%), z-index: 3))
           out.push(lq.line((e.mean, q.lo), (e.mean, q.hi), stroke: 1.2pt + c.transparentize(60%), z-index: 3))
           let (dx, dy, al) = offsets.at(name)
-          out.push(at(e.mean, q.mean, dx, dy, al, text(fill: c.darken(8%), weight: "semibold", size: 0.95em,
+          out.push(at(e.mean, q.mean, dx, dy, al, text(fill: c.darken(8%), weight: "bold",
             label-of(gname, g.values.at(i)))))
         }
         out += point(e.mean, q.mean, shape.at(gname), c, size: if zoom { 7pt } else { 5pt })
@@ -88,7 +88,7 @@
     let e1 = d.configs.epochs_1.final
     lq.diagram(
       width: 100%,
-      height: 6.4cm,
+      height: 5.2cm,
       title: panel("a", [Whole training path]),
       ylabel: [Discomfort (K·h/day)],
       xlim: (3.1, 8.7),
@@ -97,17 +97,17 @@
       xaxis: (ticks: range(4, 9)),
       yaxis: (ticks: (0, 0.1, 0.2, 0.3, 0.4).map(t => (t, fmt(t, digits: 1)))),
       lq.rect(x0, y0, width: x1 - x0, height: y1 - y0, fill: soft, stroke: none, z-index: 0),
-      lq.place(x0, y1, align: left + bottom, pad(bottom: 2pt, note[zoomed in b])),
+      lq.place(x0, y1, align: left + bottom, pad(bottom: 1pt, tag(fill: white.transparentize(15%), color: muted, inset: (x: 1pt, y: 1pt))[zoomed in b])),
       lq.plot(pe, pd, color: baseline-c, stroke: path-stroke, mark: "o", mark-size: 2.4pt, z-index: 2),
       step-label(16384, -5pt, 0pt, right + horizon),
       step-label(32768, 0pt, -5pt, center + bottom),
       step-label(65536, 2pt, -5pt, left + bottom),
       ..endpoints(false),
       at(e1.energy_kwh.mean, e1.discomfort_kh.mean, 6pt, 0pt, left + horizon,
-        text(fill: group-colors(d.groups.epochs).at(0), weight: "semibold", size: 0.95em)[1 epoch]),
+        text(fill: group-colors(d.groups.epochs).at(0), weight: "bold")[1 epoch]),
       ..point(refs.oracle.energy_kwh, refs.oracle.discomfort_kh, "d", oracle-c, size: 6pt),
       at(refs.oracle.energy_kwh, refs.oracle.discomfort_kh, 0pt, -6pt, center + bottom,
-        text(weight: "semibold", size: 0.95em)[oracle]),
+        text(weight: "bold")[oracle]),
       ..point(refs.thermostat.energy_kwh, refs.thermostat.discomfort_kh, "d", thermostat-c, size: 6pt),
     )
   }
@@ -119,11 +119,11 @@
       iso.push(lq.plot(xs, xs.map(x => (c - x) / w), mark: none, stroke: iso-stroke, z-index: 0.5))
       // label where the line leaves the panel at the top or the left
       let (lx, ly) = if c - w * y1 >= x0 { (c - w * y1, y1) } else { (x0, (c - x0) / w) }
-      iso.push(at(lx, ly, 2pt, 2pt, left + top, text(fill: muted, size: 0.9em)[cost #label]))
+      iso.push(at(lx, ly, 2pt, 2pt, left + top, tag(fill: white.transparentize(15%), color: muted, inset: (x: 1pt, y: 1pt))[cost #label]))
     }
     lq.diagram(
       width: 100%,
-      height: 6.4cm,
+      height: 5.2cm,
       title: panel("b", [Where each setting ends up]),
       xlim: (x0, x1),
       ylim: (y0, y1),
@@ -134,12 +134,12 @@
       ..endpoints(true),
       ..point(bf.energy_kwh.mean, bf.discomfort_kh.mean, "o", baseline-c, size: 9pt, z: 6),
       at(bf.energy_kwh.mean, bf.discomfort_kh.mean, -7pt, 4pt, right + top,
-        text(weight: "bold", size: 0.95em)[baseline, end]),
+        text(weight: "bold")[baseline, end]),
       ..point(refs.thermostat.energy_kwh, refs.thermostat.discomfort_kh, "d", thermostat-c, size: 8pt),
       at(refs.thermostat.energy_kwh, refs.thermostat.discomfort_kh, 0pt, 6pt, center + top,
-        text(fill: thermostat-c.darken(10%), weight: "semibold", size: 0.95em)[tuned thermostat]),
-      lq.place(x1, y0, align: right + bottom, pad(right: 2pt, bottom: 3pt,
-        note[baseline path, training runs #sym.arrow.l])),
+        text(fill: thermostat-c.darken(10%), weight: "bold")[tuned thermostat]),
+      lq.place(x1, y0, align: right + bottom, pad(right: 1pt, bottom: 2pt,
+        tag(fill: white.transparentize(15%), color: muted, inset: (x: 1pt, y: 1pt))[baseline path, training runs #sym.arrow.l])),
     )
   }
 

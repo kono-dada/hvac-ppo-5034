@@ -53,9 +53,9 @@
       for (e, y) in ends.zip(spread) {
         let label = [#e.value]
         objs.push(lq.place(101.5, calc.pow(10, y), align: left + horizon,
-          text(fill: e.color, size: 0.95em, weight: if e.base { "bold" } else { "medium" }, label)))
+          text(fill: e.color, weight: if e.base { "bold" } else { "regular" }, label)))
       }
-      objs.push(lq.place(1, 0%, align: left + top, pad(left: 1pt, top: 1pt, text(weight: "semibold", row.label))))
+      objs.push(lq.place(1, 0%, align: left + top, pad(left: 1pt, top: 1pt, text(weight: "bold", row.label))))
       if r == 0 and gname == "clip" {
         let lo = d.summary.at("clip_0.05").approx_kl.mean
         let hi = d.summary.at("clip_0.5").approx_kl.mean

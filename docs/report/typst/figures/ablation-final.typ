@@ -33,7 +33,7 @@
 #let y-bottom = rows.last().y - 0.7
 
 #let value-label(r) = if r.name == "baseline" {
-  [#text(fill: ink, weight: "bold")[#r.value] #h(0.25em) #text(size: 0.92em)[baseline]]
+  [#text(fill: ink, weight: "bold")[#r.value] #h(0.25em) #text[baseline]]
 } else [#text(fill: ink-2)[#r.value]]
 
 #let strip(m, letter, labels: false) = {
@@ -48,7 +48,7 @@
   // the tuned thermostat
   objs.push(lq.vlines(thermo, stroke: (paint: thermostat-c, thickness: 1pt, dash: (3pt, 2pt)), z-index: 1))
   objs.push(lq.place(thermo, rows.first().y, align: left + horizon, pad(left: 3pt, text(fill: thermostat-c,
-    size: 0.92em, weight: "medium")[thermostat])))
+    weight: "regular")[thermostat])))
   for r in rows {
     if r.kind == "header" {
       if r.y < 0 { objs.push(lq.hlines(r.y + 0.75, stroke: 0.5pt + faint, z-index: 0)) }
@@ -66,7 +66,7 @@
     if f.mean > hi {
       // off the scale: write the result (and, for the cost, the prediction) at the edge instead
       let x-end = if m.key == "cost" and r.name in d.predicted_cost { d.predicted_cost.at(r.name).at(0) } else { hi }
-      objs.push(lq.place(x-end, r.y, align: right + horizon, pad(right: 4pt, box(text(fill: r.color, size: 0.94em)[
+      objs.push(lq.place(x-end, r.y, align: right + horizon, pad(right: 4pt, box(text(fill: r.color)[
         *#fmt(f.mean, digits: 2)* [#fmt(f.lo, digits: 2), #fmt(f.hi, digits: 2)] #sym.arrow.r]))))
     } else {
       let seeds = f.values.enumerate()
@@ -124,7 +124,7 @@
       (swatch(color: thermostat-c, thickness: 1pt, dash: (3pt, 2pt)), [tuned thermostat]),
     )
     linebreak()
-    box[#text(size: 0.96em)[Cost prediction (right of panel a): #h(0.3em) #verdict-mark("hit") held #h(0.6em)
+    box[#text[Cost prediction (right of panel a): #h(0.3em) #verdict-mark("hit") held #h(0.6em)
       #verdict-mark("partial") partly held, the intervals overlap #h(0.6em) #verdict-mark("miss") missed]]
   })
   show: lq.layout

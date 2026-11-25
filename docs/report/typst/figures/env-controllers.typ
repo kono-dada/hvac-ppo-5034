@@ -24,14 +24,13 @@
 
   // energy and discomfort of the day, per controller
   let scores(day) = box(fill: soft, radius: 2pt, inset: (x: 6pt, y: 5pt), {
-    set text(size: 0.94em)
     let m = day.metrics
     std.grid(
       columns: (auto, auto, auto),
       column-gutter: 0.9em,
       row-gutter: 0.45em,
       align: (left, right, right),
-      text(weight: "semibold")[Score of this day], note[energy], note[discomfort],
+      text(weight: "bold")[Score of this day], note[energy], note[discomfort],
       std.grid.hline(stroke: 0.5pt + faint),
       ..keys.map(k => (
         box[#swatch(color: styles.at(k).color, dash: styles.at(k).stroke.at("dash", default: none), width: 1.1em,
@@ -48,7 +47,7 @@
     let hi = calc.ceil(calc.max(..all) / 5) * 5 + 1
     lq.diagram(
       width: 100%,
-      height: 4.9cm,
+      height: 4.0cm,
       title: panel(letter, [#names.at(day.label)], unit: [mean outdoor temperature #fmt(day.t_out_mean) °C]),
       xlim: (0, 24),
       ylim: (lo, hi),
@@ -67,7 +66,7 @@
 
   let lower(day) = lq.diagram(
     width: 100%,
-    height: 2.0cm,
+    height: 1.65cm,
     xlim: (0, 24),
     ylim: (-1.2, 1.2),
     xlabel: [Hour of day],
@@ -76,8 +75,8 @@
     grid: none,
     lq.rect(0, 0, width: 24, height: 1.2, fill: heat-soft, stroke: none, z-index: 0),
     lq.rect(0, -1.2, width: 24, height: 1.2, fill: cool-soft, stroke: none, z-index: 0),
-    lq.place(0.3, 1.1, align: left + top, text(fill: heat, size: 0.92em, weight: "medium")[heating]),
-    lq.place(0.3, -1.1, align: left + bottom, text(fill: cool, size: 0.92em, weight: "medium")[cooling]),
+    lq.place(0.3, 1.1, align: left + top, text(fill: heat, weight: "regular")[heating]),
+    lq.place(0.3, -1.1, align: left + bottom, text(fill: cool, weight: "regular")[cooling]),
     lq.hlines(0, stroke: 0.5pt + subtle),
     lq.fill-between(day.hours, day.action_thermostat, step: start, fill: thermostat-c.transparentize(55%),
       stroke: none, z-index: 2),

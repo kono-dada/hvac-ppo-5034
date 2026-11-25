@@ -1,7 +1,10 @@
 // Shared look of every report figure.
 //
 // Visual language
-//   - Fira Sans throughout, lining tabular figures.
+//   - The typeface of the report text: New Computer Modern, maths in New Computer Modern Math
+//     (both ship with Typst). The family has only regular and bold, so emphasis is bold.
+//   - One text size: figures are placed at their natural size (no scaling), so 8pt in a
+//     figure is 8pt on the page, the size of the report's tables (captions are 9pt).
 //   - Light chrome: no frame and no y spine, a thin x baseline, faint horizontal guides only.
 //     Units go into the panel titles instead of rotated axis labels.
 //   - Label lines and points directly where possible; legends only where that would crowd the plot.
@@ -19,6 +22,8 @@
 // ---------------------------------------------------------------- sizes
 #let text-width = 16cm           // default figure width (the report passes its own)
 #let base-size = 8pt
+#let font = "New Computer Modern"
+#let math-font = "New Computer Modern Math"
 
 // ---------------------------------------------------------------- palette
 // neutrals (ink, muted, faint, soft and accent are shared with the report template)
@@ -111,7 +116,7 @@
 }
 
 // ---------------------------------------------------------------- text helpers
-#let note(body) = text(fill: muted, size: 0.94em, body)
+#let note(body) = text(fill: muted, body)
 
 /// Panel heading: a letter in the accent colour, a semibold title and an optional grey unit.
 #let panel(letter, body, unit: none) = {
@@ -119,7 +124,7 @@
     text(weight: "bold", fill: accent, letter)
     h(0.5em)
   }
-  text(weight: "semibold", body)
+  text(weight: "bold", body)
   if unit != none {
     h(0.4em)
     text(fill: muted, unit)
@@ -155,7 +160,6 @@
 
 /// A row of (swatch, label) legend entries laid out inline.
 #let legend-row(..entries, gap: 1.3em) = {
-  set text(size: 0.96em)
   entries.pos().map(((sw, label)) => box[#sw #h(0.3em) #label]).join(h(gap))
 }
 
@@ -178,8 +182,9 @@
 
 // ---------------------------------------------------------------- the theme
 #let theme(body) = {
-  set text(font: "Fira Sans", size: base-size, fill: ink, number-type: "lining", number-width: "tabular")
-  show math.equation: set text(font: "Fira Math")
+  set text(font: font, size: base-size, fill: ink, number-width: "tabular",
+    top-edge: "cap-height", bottom-edge: "baseline")
+  show math.equation: set text(font: math-font)
   set par(leading: 0.5em, spacing: 0.6em, justify: false)
   set align(left)
 
@@ -194,14 +199,12 @@
   show: lq.cond-set(lq.grid.with(kind: "x"), stroke: none)
   show: lq.set-spine(stroke: (paint: subtle, thickness: 0.6pt, cap: "square"))
   show: lq.set-tick(inset: 0pt, outset: 2.5pt, pad: 0.4em)
-  show lq.selector(lq.tick-label): set text(fill: muted, size: 0.94em)
-  show lq.selector(lq.label): set text(fill: ink-2, size: 0.96em)
+  show lq.selector(lq.tick-label): set text(fill: muted)
+  show lq.selector(lq.label): set text(fill: ink-2)
   show: lq.set-label(pad: 0.5em)
   show: lq.set-title(pad: 0.75em)
   show lq.selector(lq.title): set align(left)
-  show lq.selector(lq.title): set text(size: 1.04em)
   show: lq.set-legend(stroke: none, fill: white.transparentize(8%), pad: 0.3em, inset: 0.3em, radius: 1.5pt)
-  show lq.selector(lq.legend): set text(size: 0.95em)
   show lq.selector(lq.legend): set grid(row-gutter: 0.1em, column-gutter: 0.6em)
   body
 }

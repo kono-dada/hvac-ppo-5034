@@ -27,6 +27,13 @@ The parameters are $C_a = 10^6$ and $C_m = 10^7$ J/K, $U_"ao" = 30$, $U_"am" = 4
 They make the air fast and the walls slow: one step at full power moves the air by 2.2 °C, the air responds on a time scale of about 0.6 h, and the room as a whole drifts towards the outdoor temperature on one of about 39 h.
 Because the model is linear and the inputs are held constant within a step, each step is computed exactly with a matrix exponential, without integration error.
 
+#column-figure(
+  from-module(schematic.render),
+  placement: top,
+  caption: [The room as two heat stores. Heat flows along every arrow in proportion to the temperature difference (@eq-room); the agent controls only the heat pump.],
+  label: <fig-room>,
+)
+
 #para[How realistic is it?]
 Models made of a few heat capacities and conductances are a standard tool in building control; Bacher and Madsen @bacher2011identifying identify such models from measurements of a real building and find that a single temperature does not describe its dynamics.
 Two temperatures are the minimum that makes the air respond quickly _and_ lets the room keep its heat overnight.
@@ -95,13 +102,7 @@ The agent first learns to switch on, and then has to shave energy with a learnin
 The agent observes the current weather only, so part of the gap to the oracle cannot be closed; we did not measure how large that part is.
 
 #wide-figure(
-  width => align(center, from-module(schematic.render, shrink: 0.8)(0.76 * width)),
-  caption: [The room as two heat stores. Heat flows along every arrow in proportion to the temperature difference (@eq-room); the agent controls only the heat pump.],
-  label: <fig-room>,
-)
-
-#wide-figure(
-  from-module(controllers.render, shrink: 0.8),
+  from-module(controllers.render),
   caption: [A cold and a hot test day under three controllers. The oracle pre-heats before the room is occupied and then keeps the air exactly on the edge of the comfort band; a thermostat that only switches on at 8:00 is too late on the cold day.],
   label: <fig-controllers>,
 )

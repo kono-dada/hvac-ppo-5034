@@ -13,7 +13,6 @@
 /// Legend entries of one ablation group, in one line: a coloured value per setting, baseline in bold.
 /// (Also used by ablation-update-size.typ.)
 #let group-legend(g, colors, extra: ()) = {
-  set text(size: 0.96em)
   let items = g.values.zip(g.names, colors).map(((v, n, c)) => box[
     #swatch(color: c, thickness: if n == "baseline" { 2pt } else { 1.5pt }, width: 1.1em)#h(0.25em)#if n == "baseline" [*#v*] else [#v]])
   (items + extra).join(h(0.75em))
@@ -72,7 +71,7 @@
       }
       cells.push(lq.diagram(
         width: 100%,
-        height: 3.1cm,
+        height: 2.5cm,
         title: if row == 0 { panel("abc".at(col), p.title, unit: p.unit) },
         xlim: (0, k),
         ylim: p.lim,

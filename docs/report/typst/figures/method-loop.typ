@@ -10,7 +10,7 @@
     heading-block(width: width, [One round of PPO training],
       sub: [The three settings studied in the ablation are shown in red.])
   }
-  let knob(body) = box(fill: heat-soft, radius: 6pt, inset: (x: 5pt, y: 2.5pt), text(fill: heat, weight: "medium", body))
+  let knob(body) = box(fill: heat-soft, radius: 6pt, inset: (x: 5pt, y: 2.5pt), text(fill: heat, weight: "regular", body))
   let k = width / 16.1cm
   cetz.canvas(length: 1cm * k, {
     import cetz.draw: *
@@ -21,7 +21,7 @@
       rect((x, top - 0.72), (x + w, top), radius: (north: 0.2), fill: color, stroke: none)
       circle((x + 0.42, top - 0.36), radius: 0.21, fill: white, stroke: none)
       content((x + 0.42, top - 0.36), text(fill: color, weight: "bold")[#num])
-      content((x + 0.78, top - 0.36), anchor: "west", text(fill: white, weight: "semibold", size: 1.12em, head))
+      content((x + 0.78, top - 0.36), anchor: "west", text(fill: white, weight: "bold", head))
       content((x + w / 2, top - 0.72 - (ch - 0.72) / 2 + if chip != none { 0.3 } else { 0 }),
         box(width: (w - 0.6) * 1cm * k, align(center, par(leading: 0.62em, body))))
       if chip != none { content((x + w / 2, top - ch + 0.38), chip) }
