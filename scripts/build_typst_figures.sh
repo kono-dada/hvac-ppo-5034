@@ -16,7 +16,8 @@ export TYPST_PACKAGE_CACHE_PATH="$ROOT/tools/typst/packages"
 export TYPST_FONT_PATHS="$ROOT/tools/fonts"
 
 FIGS=(env-schematic env-step-response env-days env-controllers method-loop
-      ablation-learning-curves ablation-final ablation-tradeoff ablation-update-size)
+      ablation-learning-curves ablation-final ablation-tradeoff ablation-update-size
+      ablation-clip-diagnostics)
 [ $# -gt 0 ] && FIGS=("$@")
 
 if [ "${SKIP_EXPORT:-0}" != "1" ]; then

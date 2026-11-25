@@ -1,5 +1,17 @@
 #import "../lib.typ": *
 
+#let pre = data.pre
+#let pre-rows = (
+  ("default", [Default]),
+  ("truncate", [Truncate at midnight]),
+  ("no_mass", [Walls not observed]),
+  ("weight_0.5", [Comfort weight 0.5]),
+  ("weight_8", [Comfort weight 8]),
+  ("reward_x0.1", [Reward × 0.1]),
+  ("reward_norm", [Reward normalised]),
+  ("long", [Default, #ksteps(data.pre.long.steps) steps]),
+)
+
 = Method <sec-method>
 
 == The decision process
@@ -19,8 +31,7 @@ The rewards of a day add up to $-J$ (@eq-cost), so maximising the return is the 
 
 #para[Episode end and discount.]
 The day ends at midnight as a true terminal state.
-The task is the single day and the agent observes the time, which is the first case of Pardo et al. @pardo2018time.
-In a pre-experiment (default PPO, 5 seeds, 500k steps), treating midnight as a truncation (the value of the last state is added to the final reward) made the agent keep conditioning the room "for tomorrow" and raised its cost from 4.54 to 5.19.
+The task is the single day and the agent observes the time, which is the first case of Pardo et al. @pardo2018time; treating midnight as a truncation instead was worse (@sec-pre).
 The discount is $gamma = 0.99$, under which a reward 19 steps ahead still counts 0.83; discounting does not hide the benefit of pre-heating.
 
 == PPO and the three settings
@@ -49,6 +60,49 @@ The batch is shuffled into 32 minibatches of 64, and `n_epochs` passes are made 
 
 All other hyperparameters keep their Stable-Baselines3 defaults: learning rate $3 times 10^(-4)$, value-loss coefficient 0.5, no entropy bonus, gradient-norm limit 0.5, and advantages normalised per minibatch.
 
+== Design choices, tested beforehand <sec-pre>
+
+Before the ablation we tested the main design choices of the learning problem with default PPO: #pre.default.seeds seeds per variant, #ksteps(pre.default.steps) training steps, and the 100 test days used throughout.
+Each variant is scored with the cost $J = E + 2 D$ of @eq-cost, whatever reward it was trained on (@tab-pre).
+With five seeds only large differences are meaningful; the choices below rest on those.
+
+#column-table(
+  table(
+    columns: (1fr, auto, auto, auto, auto),
+    align: (left, right, right, right, right),
+    rule-heavy,
+    table.header([Variant], [$E$ (kWh)], [$D$ (K·h)], [Viol. (%)], [Cost $J$]),
+    rule-light,
+    ..pre-rows.map(((key, label)) => {
+      let r = pre.at(key)
+      (
+        (if key == "long" { (rule-faint,) } else { () })
+          + (label, num(r.energy_kwh), num(r.discomfort_kh, digits: 3), num(r.violation_pct, digits: 1),
+            [#num(r.cost) ± #num(r.cost_sd)])
+      )
+    }).flatten(),
+    rule-heavy,
+  ),
+  caption: [Design choices tested before the ablation with default PPO (#pre.default.seeds seeds, #ksteps(pre.default.steps) steps unless stated). Daily means over the 100 test days; cost: mean ± SD over seeds, always with the comfort weight 2.],
+  label: <tab-pre>,
+)
+
+#para[Midnight is terminal.]
+Treating midnight as a truncation, so that the value of the last state is added to the final reward, made the agent keep conditioning the room "for tomorrow": it used #num(pre.truncate.energy_kwh - pre.default.energy_kwh, digits: 1) kWh more per day.
+
+#para[The walls are observed.]
+Without $T_m$ in the observation the cost rises to #num(pre.no_mass.cost), and one seed misses the band in #num(pre.no_mass.violation_pct_max, digits: 0)% of the occupied steps.
+The air temperature alone does not reveal how much heat the room has stored, and with it how long pre-heating takes.
+
+#para[The comfort weight is 2.]
+With a weight of 0.5 the agent trades comfort for energy: it uses the least energy of all variants but misses the band in #num(pre.at("weight_0.5").violation_pct, digits: 0)% of the occupied steps.
+With a weight of 8 it becomes more cautious, with almost no discomfort but #num(pre.at("weight_8").energy_kwh - pre.default.energy_kwh, digits: 1) kWh more energy.
+Because the optimum already has no discomfort at the weight 2 (@sec-env), a larger weight adds caution rather than changing what is optimal.
+
+#para[The reward is not rescaled.]
+Scaling the reward by 0.1, or normalising it with Stable-Baselines3's `VecNormalize`, raised the cost to #num(pre.at("reward_x0.1").cost) and #num(pre.reward_norm.cost).
+We did not investigate why and kept the reward as it is.
+
 == Experimental protocol <sec-protocol>
 
 #para[Design.]
@@ -58,8 +112,8 @@ This gives 12 configurations, each trained with 10 seeds for 204,800 steps (#ab.
 The policy is evaluated without noise on 100 fixed test days, generated from seeds that training never uses, every 8,192 steps and at the end.
 
 #para[A caveat on the budget.]
-At 204,800 steps the baseline is past its fast phase but has not converged: in the pre-experiments it reached a cost of 4.54 after 500k steps and 4.23 after 1.5M.
-The ablation therefore compares how far each setting gets _on the same amount of data_.
+At #ksteps(data.total_steps) steps the baseline is past its fast phase but has not converged: in the pre-experiments it reached a cost of #num(pre.default.cost) after #ksteps(pre.default.steps) steps and #num(pre.long.cost) after #ksteps(pre.long.steps), better than the tuned thermostat (#num(ctrl("thermostat_tuned").cost)).
+To afford #ab.n_runs runs, the ablation uses the shorter budget and therefore compares how far each setting gets _on the same amount of data_.
 It cannot say whether a slow setting would eventually catch up.
 
 #para[Metrics.]

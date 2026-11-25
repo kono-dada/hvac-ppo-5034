@@ -1,6 +1,7 @@
 #import "../lib.typ": *
 #import "../figures/ablation-learning-curves.typ" as curves
 #import "../figures/ablation-tradeoff.typ" as tradeoff
+#import "../figures/ablation-clip-diagnostics.typ" as clip-diag
 
 // ---------------------------------------------------------------- Table: predictions and results
 #let n-cols = 11
@@ -172,9 +173,9 @@ We had converted gradient steps into progress using the baseline's own curve, bu
 This is where we were most wrong.
 We predicted that 0.3 and 0.5 would change nothing, because few samples were clipped (O3).
 If the learning rate alone limited the size of an update, `approx_kl` would not depend on $epsilon$.
-In fact it grows #calc.round(cfg("clip_0.5").approx_kl / cfg("clip_0.05").approx_kl)-fold from $epsilon = 0.05$ to 0.5.
+In fact it grows #calc.round(cfg("clip_0.5").approx_kl / cfg("clip_0.05").approx_kl)-fold from $epsilon = 0.05$ to 0.5 (@fig-clip a).
 A typical change of the probability ratio is $sqrt(2 "KL")$, and for all five values it lies between #num(calc.min(..reach), digits: 1) and #num(calc.max(..reach), digits: 1) times $epsilon$: the size of an update scales with the clip range.
-Meanwhile `clip_fraction` stays small and even _falls_, from #pct("clip_0.05") at $epsilon = 0.05$ to #pct("clip_0.5") at 0.5.
+Meanwhile `clip_fraction` stays small and even _falls_ as $epsilon$ grows, from #pct("clip_0.05") at $epsilon = 0.05$ to #pct("clip_0.5") at 0.5 on average (@fig-clip b).
 
 A clip range of 0.05 is slower than the baseline (#diff("clip_0.05")), although less so than predicted, and it is the smoothest setting.
 Ranges of 0.1 and 0.3 cannot be told apart from the baseline in cost, but 0.3 already doubles the setback.
@@ -183,24 +184,29 @@ It keeps pace with the baseline until about 150k steps; then it stops improving 
 Single updates reach an `approx_kl` of #num(cfg("clip_0.5").approx_kl_max, digits: 1), far beyond the 0.19 that is possible if every ratio stays within $1 plus.minus 0.5$: clipping does not confine the ratio, as Engstrom et al. @engstrom2020implementation observed.
 Compared with the literature, "both ends are worse" holds for 0.05 and 0.5; between 0.1 and 0.3 we see no difference in cost.
 
+#wide-figure(
+  from-module(clip-diag.render),
+  caption: [Why the clip range matters although few samples are clipped. (a, b) Update size and share of clipped samples over training, as logged by Stable-Baselines3 (mean of 10 seeds, smoothed over 5 updates). (c, d) Post-hoc diagnostics over the last 30 updates (3 seeds). (c) Share of samples whose gradient the clipping sets to zero, and the length of their gradient relative to the gradient without clipping. (d) KL between the policy that collected a batch and the policy after each pass over it.],
+  label: <fig-clip>,
+)
+
 #para[Post-hoc diagnostics.]
 To find out why so few clipped samples matter so much, we designed an experiment _after_ seeing these results.
 We retrained $epsilon in {0.05, 0.1, 0.2, 0.3, 0.5}$ with seeds 0–2 and a copy of the Stable-Baselines3 update that records, at every minibatch, the policy gradient with and without the clipping; the recording leaves training bit-for-bit unchanged.
 Averages are over the last 30 batches.
 
 _Clipping removes a large part of the gradient._
-In the baseline the gradient of the #num(100 * dg.late.at("0.2").zeroed_frac, digits: 0)% of samples whose gradient the clipping removes is #num(100 * dg.late.at("0.2").z_norm_share, digits: 0)% as long as the unclipped gradient, and removing it turns the gradient by #num(dg.late.at("0.2").angle_deg, digits: 0)°.
-For $epsilon = 0.05$ the figures are #num(100 * dg.late.at("0.05").z_norm_share, digits: 0)% and #num(dg.late.at("0.05").angle_deg, digits: 0)°, for 0.5 they are #num(100 * dg.late.at("0.5").z_norm_share, digits: 0)% and #num(dg.late.at("0.5").angle_deg, digits: 0)°.
+In the baseline the clipping sets the gradient of only #num(100 * dg.late.at("0.2").zeroed_frac, digits: 0)% of the samples to zero, yet their gradient is #num(100 * dg.late.at("0.2").z_norm_share, digits: 0)% as long as the unclipped gradient, and removing it turns the gradient by #num(dg.late.at("0.2").angle_deg, digits: 0)°.
+The narrower the range, the larger this share (@fig-clip c).
 A sample count is therefore a poor measure of how much clipping does, which is how we misread O3.
 
 _A wide range weakens the pull back._
-Within a batch, the later epochs drift the mean action $mu(s)$ away from where the batch started.
+Within a batch, the later passes drift the mean action $mu(s)$ away from where the batch started.
 On the runs with $epsilon = 0.5$ we computed, on the same parameters and the same minibatch, the gradient under $epsilon = 0.2$ and under 0.5, and projected both onto the direction that shrinks this drift.
-Widening the range releases #num(100 * dg.probe.extra_samples_frac, digits: 0)% more samples, whose gradient is #num(100 * dg.probe.extra_gradient_norm_share, digits: 0)% as long as the actual one, and it partly cancels the pull back: the cosine with the pull-back direction falls from #num(dg.probe.restore_cos_02) to #num(dg.probe.restore_cos_05) and the pull-back after gradient-norm clipping by #num(100 * dg.probe.restore_drop, digits: 0)%.
-An Adam step of the same length from the same optimiser state then shrinks the drift on average under 0.2 but keeps it under 0.5.
-The drift accumulates: late in training the KL of a batch is #num(dg.late.at("0.5").kl_end / dg.late.at("0.2").kl_end, digits: 0) times that of the baseline, #num(100 * dg.late.at("0.5").kl_mean_share, digits: 1)% of it from moving $mu(s)$, and the mean action moves #num(dg.late.at("0.5").mu_shift_abs / dg.late.at("0.2").mu_shift_abs, digits: 1) times as far per batch.
+Widening the range releases #num(100 * dg.probe.extra_samples_frac, digits: 0)% more samples, whose gradient partly cancels the pull back: after gradient-norm clipping the pull back is #num(100 * dg.probe.restore_drop, digits: 0)% weaker, and an Adam step of the same length from the same optimiser state shrinks the drift on average under 0.2 but keeps it under 0.5.
+The drift therefore accumulates over the passes (@fig-clip d): at the end of a batch the KL is #num(dg.late.at("0.5").kl_end / dg.late.at("0.2").kl_end, digits: 0) times that of the baseline, #num(100 * dg.late.at("0.5").kl_mean_share, digits: 1)% of it from moving $mu(s)$.
 A policy that runs close to the edge of the comfort band pays for such moves in discomfort, which accounts for #num(100 * 2 * cfg("clip_0.5").diff.discomfort_kh.d / cfg("clip_0.5").diff.cost.d, digits: 0)% of the cost increase of $epsilon = 0.5$.
-Gradient-norm clipping (limit 0.5) does not trigger more often with a wider range: it is active in at least 99.9% of the steps for every $epsilon$, and only scales the larger gradients of a wide range down more.
+Gradient-norm clipping (limit 0.5) is active in at least 99.9% of the steps for every $epsilon$ and does not prevent this; it only scales the larger gradients of a wide range down more.
 These diagnostics use three seeds and were designed after the fact; they explain the failure of the prediction but were not part of it.
 
 #wide-figure(

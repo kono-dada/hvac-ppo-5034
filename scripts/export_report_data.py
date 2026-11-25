@@ -9,6 +9,8 @@ Sources
     docs/report/data/ablation_verdicts.csv   the 54 pre-registered predictions and their verdicts
     docs/report/data/clip_diagnostics_summary.csv, clip_gradient_probe.csv   post-hoc diagnostics
     runs/ablation/<config>/seed<k>/          per-seed results, learning curves, SB3 logs, saved policies
+    runs/diagnostics/<config>/seed<k>/       per-epoch logs of the post-hoc clip diagnostics
+    runs/pre/<variant>/seed<k>/              pre-experiments on design choices (5 seeds, 500k steps)
     hvac.controllers                         reference controllers, re-evaluated on the 100 test days
 
 The definitions below repeat those of scripts/analyze_ablation.py (rollback, the
@@ -39,6 +41,8 @@ from hvac.stats import HIT, MISS, PARTIAL, UNDECIDED, sd_ratio_test, welch_ci  #
 
 DATA = ROOT / "docs" / "report" / "data"
 RUNS = ROOT / "runs" / "ablation"
+DIAG = ROOT / "runs" / "diagnostics"
+PRE = ROOT / "runs" / "pre"
 OUT = ROOT / "docs" / "report" / "typst" / "data" / "report.json"
 
 # Table order: the baseline, then one block per hyperparameter.
@@ -301,7 +305,40 @@ def diagnostics() -> dict:
         "adam_param_step_02", "adam_param_step_05", "distance_delta_02", "distance_delta_05",
     )}  # fmt: skip
     pull["restore_drop"] = 1 - pull["restore_dot_clipped_05"] / pull["restore_dot_clipped_02"]
+    # KL to the data-collecting policy after each pass over the batch, late rounds (figure in section 5.3).
+    for name, eps in (("clip_0.05", 0.05), ("clip_0.1", 0.1), ("baseline", 0.2), ("clip_0.3", 0.3), ("clip_0.5", 0.5)):
+        epochs = pd.concat([pd.read_csv(run / "diag_epochs.csv") for run in sorted((DIAG / name).glob("seed*"))])
+        epochs = epochs[(epochs["round"] >= 71) & (epochs["round"] <= 100)]
+        per_clip[f"{eps:g}"]["kl_by_epoch"] = [float(v) for v in epochs.groupby("epoch")["kl_exact"].mean()]
     return {"late": per_clip, "probe": pull}
+
+
+# ---------------------------------------------------------------- pre-experiments (design choices)
+PRE_VARIANTS = [  # (key, run directory) in the order of the report's table
+    ("default", "baseline"), ("truncate", "end_truncate"), ("no_mass", "no_mass_obs"),
+    ("weight_0.5", "weight_0.5"), ("weight_8", "weight_8"),
+    ("reward_x0.1", "reward_x0.1"), ("reward_norm", "reward_vecnorm"), ("long", "baseline_long"),
+]  # fmt: skip
+
+
+def preexperiments() -> dict:
+    """Final policies of the pre-experiments (scripts/run_preexperiments.py), 5 seeds each, on the same 100
+    test days as the ablation. Every variant is scored with the report's cost J = E + 2 D, whatever reward
+    it was trained on."""
+    out = {}
+    for key, variant in PRE_VARIANTS:
+        runs = sorted((PRE / variant).glob("seed*"))
+        spec = json.loads((runs[0] / "spec.json").read_text())
+        m = [json.loads((r / "final_eval.json").read_text())["mean"] for r in runs]
+        e, d, v = (np.array([x[k] for x in m]) for k in ("energy_kwh", "discomfort_kh", "violation_pct"))
+        c = e + WEIGHT * d
+        out[key] = {
+            "seeds": len(runs), "steps": spec["total_timesteps"],
+            "cost": float(c.mean()), "cost_sd": float(c.std(ddof=1)),
+            "energy_kwh": float(e.mean()), "discomfort_kh": float(d.mean()),
+            "violation_pct": float(v.mean()), "violation_pct_max": float(v.max()),
+        }  # fmt: skip
+    return out
 
 
 def clean(obj):
@@ -325,6 +362,7 @@ if __name__ == "__main__":
         "controllers": controllers(),
         "lambda_by_time": lambda_by_time_of_day(runs),
         "diagnostics": diagnostics(),
+        "pre": preexperiments(),
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(clean(data), indent=1, ensure_ascii=False) + "\n")
@@ -364,3 +402,10 @@ if __name__ == "__main__":
         print(f"  {c:>5s} | {r['zeroed_frac']:.3f} | {r['z_norm_share']:.2f} | {r['angle_deg']:.1f} | "
               f"{r['grad_clipped']:.4f} | {r['kl_end']:.4f} | {r['kl_mean_share']:.3f}")
     print("  gradient probe (clip 0.5 runs):", {k: round(v, 6) for k, v in data["diagnostics"]["probe"].items()})
+    print("  KL after each epoch, rounds 71-100:")
+    for c, r in data["diagnostics"]["late"].items():
+        print(f"  {c:>5s} " + " ".join(f"{v:.4f}" for v in r["kl_by_epoch"]))
+    print("  pre-experiments (5 seeds): cost ± sd | energy | discomfort | violations (max seed)")
+    for k, r in data["pre"].items():
+        print(f"  {k:12s} {r['steps'] // 1000}k  {r['cost']:.2f} ± {r['cost_sd']:.2f} | {r['energy_kwh']:.2f} | "
+              f"{r['discomfort_kh']:.3f} | {r['violation_pct']:.1f}% ({r['violation_pct_max']:.1f}%)")

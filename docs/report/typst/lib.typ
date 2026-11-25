@@ -48,7 +48,7 @@
 #let diff(name, key: "cost", digits: 2) = interval(cfg(name).diff.at(key), digits: digits)
 
 /// Training steps in thousands: 204800 -> 205k
-#let ksteps(n) = [#calc.round(n / 1000)k]
+#let ksteps(n) = if n >= 1000000 [#calc.round(n / 1000000, digits: 1)M] else [#calc.round(n / 1000)k]
 
 /// Value of an ablated setting as written in tables: 0.05, 1, 30
 #let setting(v) = str(v)
